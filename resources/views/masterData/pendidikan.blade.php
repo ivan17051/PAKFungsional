@@ -4,7 +4,7 @@
 active
 @endsection
 
-@section('pegawaiStatus')
+@section('pendidikanStatus')
 active
 @endsection
 
@@ -13,7 +13,7 @@ active
   <div class="page-title">
       <div class="row">
           <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>Data Golongan</h3>
+              <h3>Data Pendidikan</h3>
               <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
           </div>
           <div class="col-12 col-md-6 order-md-2 order-first">
@@ -35,23 +35,17 @@ active
               <table class="table table-striped" id="table1">
                   <thead>
                       <tr>
-                          <th>NIP</th>
                           <th>Nama</th>
-                          <th>No. Kartu</th>
-                          <th>No. HP</th>
-                          <th>Aksi</th>
+                          <th style="width:100px;">Aksi</th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($pegawai as $unit)
+                      @foreach($pendidikan as $unit)
                       <tr>
-                          <td>{{$unit->nip}}</td>
                           <td>{{$unit->nama}}</td>
-                          <td>{{$unit->nokartu}}</td>
-                          <td>{{$unit->nohp}}</td>
                           <td>
-                            <a class="btn btn-sm btn-outline-success"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                              <a class="btn btn-sm btn-outline-success"><i class="bi bi-pencil-square"></i></a>
+                              <a class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
                           </td>
                       </tr>
                       @endforeach

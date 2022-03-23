@@ -4,7 +4,7 @@
 active
 @endsection
 
-@section('pegawaiStatus')
+@section('golonganStatus')
 active
 @endsection
 
@@ -35,23 +35,19 @@ active
               <table class="table table-striped" id="table1">
                   <thead>
                       <tr>
-                          <th>NIP</th>
+                          <th>Golongan</th>
                           <th>Nama</th>
-                          <th>No. Kartu</th>
-                          <th>No. HP</th>
-                          <th>Aksi</th>
+                          <th style="width:100px;">Aksi</th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($pegawai as $unit)
+                      @foreach($golongan as $unit)
                       <tr>
-                          <td>{{$unit->nip}}</td>
+                          <td>{{$unit->golongan}}</td>
                           <td>{{$unit->nama}}</td>
-                          <td>{{$unit->nokartu}}</td>
-                          <td>{{$unit->nohp}}</td>
                           <td>
-                            <a class="btn btn-sm btn-outline-success"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                              <a class="btn btn-sm btn-outline-success"><i class="bi bi-pencil-square"></i></a>
+                              <a class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
                           </td>
                       </tr>
                       @endforeach
