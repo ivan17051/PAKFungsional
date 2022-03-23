@@ -14,5 +14,5 @@
 Auth::routes();
 
 Route::get('/',function(){
-    return 'TEST';
+    return 'dashboard';
 });

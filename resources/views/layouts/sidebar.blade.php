@@ -1,153 +1,372 @@
 @section('sidebar')
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-@php
-$user = Auth::user()->role;
-@endphp
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('/')}}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">BLUD <sup>Alpha</sup></div>
-    </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item @yield('dashboardStatus')">
-        <a class="nav-link" href="{{url('/')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <li class="nav-item @yield('masterShow')">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaster"
-            aria-expanded="true" aria-controls="collapseMaster">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Data Master</span>
-        </a>
-        <div id="collapseMaster" class="collapse @yield('masterShow')" aria-labelledby="headingMaster" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Data Master</h6>
-                @if($user=='admin')
-                <a class="collapse-item @yield('userStatus')" href="{{url('user')}}">User</a>
-                @endif
-                @if(in_array($user, array('admin', 'KEU')))
-                <a class="collapse-item @yield('unitKerjaStatus')" href="{{url('unitKerja')}}">Unit Kerja</a>
-                <a class="collapse-item @yield('kegiatanStatus')" href="{{url('kegiatan')}}">Kegiatan</a>
-                <a class="collapse-item @yield('subkegiatanStatus')" href="{{url('subkegiatan')}}">Subkegiatan</a>
-                <a class="collapse-item @yield('rekeningStatus')" href="{{url('rekening')}}">Rekening</a>
-                <a class="collapse-item @yield('pajakStatus')" href="{{url('pajak')}}">Pajak</a>
-                @endif
-                @if(in_array($user, array('admin', 'PKM', 'KEU')))
-                <a class="collapse-item @yield('rekananStatus')" href="{{url('rekanan')}}">Rekanan</a>
-                <a class="collapse-item @yield('pejabatStatus')" href="{{url('pejabat')}}">Pejabat</a>
-                @endif
-                @if(in_array($user, array('admin', 'PIH')))
-                <a class="collapse-item @yield('saldoStatus')" href="{{url('saldo')}}">Saldo</a>
-                @endif
-            </div>
-        </div>
-    </li>
-
-    <!-- Divider -->
-    <!-- <hr class="sidebar-divider"> -->
-
-    <!-- Heading -->
-    <!-- <div class="sidebar-heading">
-        Transaksi
-    </div> -->
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item @yield('spjStatus')">
-        <a class="nav-link" href="{{url('/spj')}}">
-            <i class="fas fa-fw fa-envelope"></i>
-            <span>SPJ</span></a>
-    </li>
-
-    <!-- Nav Item - Transaksi -->
-    <li class="nav-item @yield('transaksiStatus')">
-        <a class="nav-link" href="{{url('/transaksi')}}">
-            <i class="fas fa-fw fa-exchange-alt"></i>
-            <span>SPP-SPM</span></a>
-    </li>
-    <!-- Nav Item - BKU -->
-    <li class="nav-item @yield('bkuStatus')">
-        <a class="nav-link" href="{{url('/bku')}}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>BKU</span></a>
-    </li>
-    <!-- Nav Item - LPJ -->
-    <li class="nav-item @yield('lpjStatus')">
-        <a class="nav-link" href="{{url('/lpj')}}">
-            <i class="fas fa-fw fa-file-alt"></i>
-            <span>LPJ</span></a>
-    </li>
-
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporan"
-            aria-expanded="true" aria-controls="collapseLaporan">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Laporan</span>
-        </a>
-        <div id="collapseLaporan" class="collapse " aria-labelledby="headingLaporan" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Laporan</h6>
-                <div class="dropdown c-dropdown-right" >
-                    <a class="collapse-item dropdown-toggle" href="#" id="dropdownFungsional" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fungsional</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                        <a class="dropdown-item" href="#">per Rekening</a>
-                    </div>
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo">
+                    <a href="index.html"><img src="{{asset('public/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                 </div>
             </div>
         </div>
-    </li> -->
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+                <li class="sidebar-item active ">
+                    <a href="index.html" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
 
-    <!-- Nav Item - LPJ -->
-    <li class="nav-item @yield('bukuBankStatus')">
-        <a class="nav-link" href="{{url('/bukuBank')}}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Buku Bank</span></a>
-    </li>
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Components</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="component-alert.html">Alert</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-badge.html">Badge</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-breadcrumb.html">Breadcrumb</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-button.html">Button</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-card.html">Card</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-carousel.html">Carousel</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-dropdown.html">Dropdown</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-list-group.html">List Group</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-modal.html">Modal</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-navs.html">Navs</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-pagination.html">Pagination</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-progress.html">Progress</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-spinner.html">Spinner</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-tooltip.html">Tooltip</a>
+                        </li>
+                    </ul>
+                </li>
 
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-collection-fill"></i>
+                        <span>Extra Components</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Avatar</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-sweetalert.html">Sweet Alert</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-toastify.html">Toastify</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-rating.html">Rating</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-divider.html">Divider</a>
+                        </li>
+                    </ul>
+                </li>
 
-    <!-- SAMPLE DROPDOWN MENU -->
-    <li class="nav-item">
-        <div class="dropdown auto-hover">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdownLaporan" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-book"></i>
-                <span>Laporan</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownLaporan">
-                <!-- <a class="dropdown-item" href="#">per Rekening</a> -->
-                <!-- <a class="dropdown-item" href="#">Another action</a> -->
-                <div class="dropdown auto-hover c-dropdown-right"  >
-                    <a class="dropdown-item dropdown-toggle" href="#" id="dropdownLaporanPertanggungjawaban" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pertanggungjawaban</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownLaporanPertanggungjawaban">
-                        <a class="dropdown-item" href="#" onclick="my.openModalView('{{route('fungsional')}}', 'laporanFungsional')" >Fungsional</a>
-                    </div>
-                </div>
-            </div>
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Layouts</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="layout-default.html">Default Layout</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-vertical-1-column.html">1 Column</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-vertical-navbar.html">Vertical Navbar</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-rtl.html">RTL Layout</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-horizontal.html">Horizontal Menu</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-title">Forms &amp; Tables</li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-hexagon-fill"></i>
+                        <span>Form Elements</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="form-element-input.html">Input</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-element-input-group.html">Input Group</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-element-select.html">Select</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-element-radio.html">Radio</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-element-checkbox.html">Checkbox</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-element-textarea.html">Textarea</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="form-layout.html" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-medical-fill"></i>
+                        <span>Form Layout</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-pen-fill"></i>
+                        <span>Form Editor</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="form-editor-quill.html">Quill</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-editor-ckeditor.html">CKEditor</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-editor-summernote.html">Summernote</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="form-editor-tinymce.html">TinyMCE</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="table.html" class='sidebar-link'>
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Table</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                        <span>Datatables</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="table-datatable.html">Datatable</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="table-datatable-jquery.html">Datatable (jQuery)</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-title">Extra UI</li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-pentagon-fill"></i>
+                        <span>Widgets</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="ui-widgets-chatbox.html">Chatbox</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-widgets-pricing.html">Pricing</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-widgets-todolist.html">To-do List</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-egg-fill"></i>
+                        <span>Icons</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="ui-icons-bootstrap-icons.html">Bootstrap Icons </a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-icons-fontawesome.html">Fontawesome</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-icons-dripicons.html">Dripicons</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-bar-chart-fill"></i>
+                        <span>Charts</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="ui-chart-chartjs.html">ChartJS</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-chart-apexcharts.html">Apexcharts</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="ui-file-uploader.html" class='sidebar-link'>
+                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                        <span>File Uploader</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-map-fill"></i>
+                        <span>Maps</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="ui-map-google-map.html">Google Map</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="ui-map-jsvectormap.html">JS Vector Map</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-title">Pages</li>
+
+                <li class="sidebar-item  ">
+                    <a href="application-email.html" class='sidebar-link'>
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>Email Application</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="application-chat.html" class='sidebar-link'>
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span>Chat Application</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="application-gallery.html" class='sidebar-link'>
+                        <i class="bi bi-image-fill"></i>
+                        <span>Photo Gallery</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="application-checkout.html" class='sidebar-link'>
+                        <i class="bi bi-basket-fill"></i>
+                        <span>Checkout Page</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Authentication</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="auth-login.html">Login</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="auth-register.html">Register</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="auth-forgot-password.html">Forgot Password</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-x-octagon-fill"></i>
+                        <span>Errors</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="error-403.html">403</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="error-404.html">404</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="error-500.html">500</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-title">Raise Support</li>
+
+                <li class="sidebar-item  ">
+                    <a href="https://zuramai.github.io/mazer/docs" class='sidebar-link'>
+                        <i class="bi bi-life-preserver"></i>
+                        <span>Documentation</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="https://github.com/zuramai/mazer/blob/main/CONTRIBUTING.md" class='sidebar-link'>
+                        <i class="bi bi-puzzle"></i>
+                        <span>Contribute</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  ">
+                    <a href="https://github.com/zuramai/mazer#donate" class='sidebar-link'>
+                        <i class="bi bi-cash"></i>
+                        <span>Donate</span>
+                    </a>
+                </li>
+
+            </ul>
         </div>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
     </div>
-
-</ul>
+</div>
 @endsection
