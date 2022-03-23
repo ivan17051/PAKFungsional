@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \App\BukuBank::observe(\App\Observers\BukuBankObserver::class);
         if(env('APP_ENV') === 'production')
         {
             \URL::forceScheme('https');
