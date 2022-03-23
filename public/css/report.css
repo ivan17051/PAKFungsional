@@ -123,3 +123,15 @@ table{border-collapse:collapse;margin-left: auto;margin-right: auto; background-
     padding: 2px 5px 2px 5px;
     vertical-align: middle;
 }
+
+.borderTop-0{
+    border-top: 0!important;
+}
+
+.borderBottom-0{
+    border-bottom: 0!important;
+}
+
+.table-padding td{
+    padding: 2px 5px 2px 5px;
+}

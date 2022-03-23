@@ -16,3 +16,7 @@ Auth::routes();
 Route::get('/',function(){
     return 'TEST';
 });
+
+Route::get('/report',function(){
+    return view('report.pak');
+});
