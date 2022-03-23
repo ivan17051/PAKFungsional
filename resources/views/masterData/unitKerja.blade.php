@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('masterShow')
-show
+@section('masterStatus')
+active
 @endsection
 
 @section('unitKerjaStatus')
@@ -9,53 +9,60 @@ active
 @endsection
 
 @section('content')
-<!-- Begin Page Content -->
-<div class="container-fluid">
+<div class="page-heading">
+  <div class="page-title">
+      <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Data Unit Kerja</h3>
+              <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                  </ol>
+              </nav>
+          </div>
+      </div>
+  </div>
+  <section class="section">
+      <div class="card">
+          <!-- <div class="card-header">
+              Simple Datatable
+          </div> -->
+          <div class="card-body">
+              <table class="table table-striped" id="table1">
+                  <thead>
+                      <tr>
+                          <th>Nama</th>
+                          <th>Nama Alias</th>
+                          <th>Alamat</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($unitKerja as $unit)
+                      <tr>
+                          <td>{{$unit->nama}}</td>
+                          <td>{{$unit->nama_alias}}</td>
+                          <td>{{$unit->alamat}}</td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Unit Kerja</h1>
-    <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank"
-            href="https://datatables.net">official DataTables documentation</a>.</p> -->
-
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Unit Kerja</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Nama Alias</th>
-                            <th style="width:40%;">Alamat</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Nama Alias</th>
-                            <th>Alamat</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach($unitKerja as $unit)
-                        <tr>
-                            <td>{{$unit->nama}}</td>
-                            <td>{{$unit->nama_alias}}</td>
-                            <td>{{$unit->alamat}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+  </section>
 </div>
-<!-- /.container-fluid -->
+@endsection
+
+@section('script')
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
 @endsection
 
 @section('script')

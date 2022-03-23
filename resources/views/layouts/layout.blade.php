@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{asset('public/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('public/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('public/vendors/simple-datatables/style.css')}}">
+
     <link rel="shortcut icon" href="{{asset('public/images/favicon.svg')}}" type="image/x-icon">
 </head>
 
@@ -27,7 +29,7 @@
         <!-- End of Sidebar -->
 
         <div id="main" class='layout-navbar'>
-            <header class='mb-3'>
+            <header>
                 <nav class="navbar navbar-expand navbar-light ">
                     <div class="container-fluid">
                         <a href="#" class="burger-btn d-block">
@@ -115,6 +117,8 @@
     
     <script src="{{asset('public/vendors/apexcharts/apexcharts.js')}}"></script>
     <script src="{{asset('public/js/pages/dashboard.js')}}"></script>
+    <script src="{{asset('public/vendors/simple-datatables/simple-datatables.js')}}"></script>
+    @yield('script')
 </body>
 
 </html>
