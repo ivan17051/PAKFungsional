@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{asset('public/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('public/vendors/simple-datatables/style.css')}}">
+    <link rel="stylesheet" href="{{asset('public/vendors/datatables/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/custom.css')}}">
 
     <link rel="shortcut icon" href="{{asset('public/images/favicon.svg')}}" type="image/x-icon">
 </head>
@@ -111,6 +113,7 @@
             </div>
         </div>
     </div>
+    <script src="{{asset('public/vendors/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('public/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('public/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('public/js/mazer.js')}}"></script>
@@ -118,6 +121,9 @@
     <script src="{{asset('public/vendors/apexcharts/apexcharts.js')}}"></script>
     <script src="{{asset('public/js/pages/dashboard.js')}}"></script>
     <script src="{{asset('public/vendors/simple-datatables/simple-datatables.js')}}"></script>
+    <script src="{{asset('public/vendors/datatables/jquery.dataTables.min.js')}}"></script>
+
+    <script src="{{asset('public/js/custom.js')}}"></script>
     @yield('script')
 </body>
 

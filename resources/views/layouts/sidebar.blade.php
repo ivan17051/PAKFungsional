@@ -48,7 +48,7 @@
 
                 <li class="sidebar-title">Forms &amp; Tables</li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item  @yield('penilaianStatus')">
                     <a href="{{url('/penilaian')}}" class='sidebar-link'>
                         <i class="bi bi-file-earmark-medical-fill"></i>
                         <span>Penilaian</span>

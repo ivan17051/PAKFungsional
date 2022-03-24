@@ -5,16 +5,16 @@ $.extend( true, $.fn.dataTable.defaults, {
         "infoEmpty":      "",
         "infoFiltered":   "(filter dari _MAX_ total data)",
         "thousands":      ".",
-        "lengthMenu":     "Menampilkan _MENU_ data",
+        "lengthMenu":     "_MENU_ data",
         "loadingRecords": "Memuat...",
         "processing":     "Memproses...",
-        "search":         "Cari:",
+        "search":         "",
         "zeroRecords":    "Tidak ada yang cocok.",
         "paginate": {
             "first":      "Awal",
             "last":       "Akhir",
-            "next":       "Lanjut",
-            "previous":   "Balik"
+            "next":       "›",
+            "previous":   "‹"
         },
         "aria": {
             "sortAscending":  ": activate to sort column ascending",

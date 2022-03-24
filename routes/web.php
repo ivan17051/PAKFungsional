@@ -16,9 +16,6 @@ Auth::routes();
 Route::get('/',function(){
     return view('dashboard');
 });
-Route::get('/report',function(){
-    return view('report.pak');
-});
     
 Route::get('/login', function(){
     return view('auth.login');
@@ -28,3 +25,9 @@ Route::get('/pegawai', 'DataMasterController@pegawai');
 Route::get('/golongan', 'DataMasterController@golongan');
 Route::get('/jabatan', 'DataMasterController@jabatan');
 Route::get('/pendidikan', 'DataMasterController@pendidikan');
+
+Route::get('/penilaian', 'PenilaianController@index');
+Route::post('/penilaian/data', 'PenilaianController@data')->name('penilaian.data');
+Route::put('/penilaian', 'PenilaianController@storeUpdate')->name('penilaian.update');
+Route::delete('/penilaian', 'PenilaianController@delete')->name('penilaian.delete');
+Route::get('/penilaian/cetak/{idpenilaian}', 'PenilaianController@cetak')->name('penilaian.cetak');
