@@ -2,91 +2,53 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>BLUD | Login</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{asset('public/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{asset('public/css/sb-admin-2.min.css')}}" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mazer Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('public/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('public/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/pages/auth.css')}}">
 </head>
 
-<body class="bg-gradient-primary">
+<body>
+    <div id="auth">
 
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-6 col-lg-8 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                            </div>
-                            <form class="user" method="POST" action="{{ route('login') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user {{ $errors->has('username') ? ' is-invalid' : '' }}"
-                                        id="exampleInputEmail" aria-describedby="emailHelp"
-                                        placeholder="Username" name="username" value="{{ old('username') }}" required autofocus>
-                                    @if ($errors->has('username'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('username') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-user {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                        id="exampleInputPassword" placeholder="Password"
-                                        name="password" required>
-                                    @if ($errors->has('password'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <br>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Login
-                                </button>
-                            </form>
-                        </div>
+        <div class="row h-100">
+            <div class="col-lg-5 col-12">
+                <div id="auth-left">
+                    <div class="auth-logo" style="margin-bottom:3rem;">
+                        <img src="{{asset('public/images/logo/logo.png')}}" alt="Logo">
                     </div>
+                    <h1 style="margin-bottom:1rem;">Log in.</h1>
+
+                    <form action="">
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input type="text" class="form-control form-control-xl" placeholder="Username">
+                            <div class="form-control-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input type="password" class="form-control form-control-xl" placeholder="Password">
+                            <div class="form-control-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-3">Log in</button>
+                    </form>
                 </div>
-
             </div>
+            <div class="col-lg-7 d-none d-lg-block">
+                <div id="auth-right">
 
+                </div>
+            </div>
         </div>
 
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('public/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('public/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{asset('public/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{asset('public/js/sb-admin-2.min.js')}}"></script>
-    @section('script')
-    @include('layouts.alert')
-    @endsection
 </body>
 
 </html>

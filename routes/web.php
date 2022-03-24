@@ -14,9 +14,17 @@
 Auth::routes();
 
 Route::get('/',function(){
-    return 'TEST';
+    return view('dashboard');
 });
-
 Route::get('/report',function(){
     return view('report.pak');
 });
+    
+Route::get('/login', function(){
+    return view('auth.login');
+});
+Route::get('/unitKerja', 'DataMasterController@unitKerja');
+Route::get('/pegawai', 'DataMasterController@pegawai');
+Route::get('/golongan', 'DataMasterController@golongan');
+Route::get('/jabatan', 'DataMasterController@jabatan');
+Route::get('/pendidikan', 'DataMasterController@pendidikan');

@@ -4,7 +4,7 @@
 active
 @endsection
 
-@section('unitKerjaStatus')
+@section('golonganStatus')
 active
 @endsection
 
@@ -13,7 +13,7 @@ active
   <div class="page-title">
       <div class="row">
           <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>Data Unit Kerja</h3>
+              <h3>Data Golongan</h3>
               <!-- <p class="text-subtitle text-muted">For user to check they list</p> -->
           </div>
           <div class="col-12 col-md-6 order-md-2 order-first">
@@ -35,17 +35,20 @@ active
               <table class="table table-striped" id="table1">
                   <thead>
                       <tr>
+                          <th>Golongan</th>
                           <th>Nama</th>
-                          <th>Nama Alias</th>
-                          <th>Alamat</th>
+                          <th style="width:100px;">Aksi</th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($unitKerja as $unit)
+                      @foreach($golongan as $unit)
                       <tr>
+                          <td>{{$unit->golongan}}</td>
                           <td>{{$unit->nama}}</td>
-                          <td>{{$unit->nama_alias}}</td>
-                          <td>{{$unit->alamat}}</td>
+                          <td>
+                              <a class="btn btn-sm btn-outline-success"><i class="bi bi-pencil-square"></i></a>
+                              <a class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                          </td>
                       </tr>
                       @endforeach
                   </tbody>
@@ -63,8 +66,4 @@ active
     let table1 = document.querySelector('#table1');
     let dataTable = new simpleDatatables.DataTable(table1);
 </script>
-@endsection
-
-@section('script')
-    @include('layouts.alert')
 @endsection
