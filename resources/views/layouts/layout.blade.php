@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="{{asset('public/vendors/datatables/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/custom.css')}}">
 
+    <!-- Include Choices CSS -->
+    <link rel="stylesheet" href="{{asset('public/vendors/choices.js/choices.min.css')}}" />
+
     <link rel="shortcut icon" href="{{asset('public/images/favicon.svg')}}" type="image/x-icon">
 </head>
 
@@ -89,12 +92,7 @@
                                     <li>
                                         <h6 class="dropdown-header">Hello, John!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                                            Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-key me-2"></i> Ubah Password</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -124,6 +122,13 @@
     <script src="{{asset('public/vendors/datatables/jquery.dataTables.min.js')}}"></script>
 
     <script src="{{asset('public/js/custom.js')}}"></script>
+    
+    <!-- Sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Include Choices JavaScript -->
+    <script src="{{asset('public/vendors/choices.js/choices.min.js')}}"></script>
+    <script src="{{asset('public/js/pages/form-element-select.js')}}"></script>
     @yield('script')
 </body>
 

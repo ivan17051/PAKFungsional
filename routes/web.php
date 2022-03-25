@@ -21,10 +21,18 @@ Route::get('/login', function(){
     return view('auth.login');
 });
 Route::get('/unitKerja', 'DataMasterController@unitKerja');
+
 Route::get('/pegawai', 'DataMasterController@pegawai');
+Route::put('/pegawai', 'DataMasterController@storeUpdatePegawai')->name('pegawai.update');
+
 Route::get('/golongan', 'DataMasterController@golongan');
+Route::put('/golongan', 'DataMasterController@storeUpdateGolongan')->name('golongan.golongan');
+
 Route::get('/jabatan', 'DataMasterController@jabatan');
+Route::put('/jabatan', 'DataMasterController@storeUpdateJabatan')->name('jabatan.update');
+
 Route::get('/pendidikan', 'DataMasterController@pendidikan');
+Route::put('/pendidikan', 'DataMasterController@storeUpdatePendidikan')->name('pendidikan.update');
 
 Route::get('/penilaian', 'PenilaianController@index');
 Route::post('/penilaian/data', 'PenilaianController@data')->name('penilaian.data');
