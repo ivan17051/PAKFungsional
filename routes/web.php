@@ -22,6 +22,7 @@ Route::get('/login', function(){
 });
 Route::get('/unitKerja', 'DataMasterController@unitKerja');
 Route::get('/pegawai', 'DataMasterController@pegawai');
+Route::get('/pegawai/search', 'DataMasterController@searchPegawai')->name('search.pegawai');
 Route::get('/golongan', 'DataMasterController@golongan');
 Route::get('/jabatan', 'DataMasterController@jabatan');
 Route::get('/pendidikan', 'DataMasterController@pendidikan');

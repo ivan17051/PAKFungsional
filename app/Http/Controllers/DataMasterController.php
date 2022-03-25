@@ -31,4 +31,15 @@ class DataMasterController extends Controller
         $pendidikan = Pendidikan::all();
         return view('masterData.pendidikan', ['pendidikan'=>$pendidikan]);
     }
+
+    public function searchPegawai(Request $request){
+        $data=$request->input('query');
+        // if($request->input('query')){
+        $data = Pegawai::where('nama', 'like', '%' . strtolower($request->input('query')) . '%')
+            ->orWhere('nip', 'like', '%' . strtolower($request->input('query')) . '%')
+            ->limit(5)
+            ->get();
+        // }
+        return response()->json($data);
+    }
 }

@@ -48,4 +48,8 @@ class Penilaian extends Model
     protected $hidden = [
         'doc', 'dom'
     ];
+
+    public function pegawai(){
+        return $this->belongsTo(Pegawai::class, 'idpegawai');
+    }
 }
