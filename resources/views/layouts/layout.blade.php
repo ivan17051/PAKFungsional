@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="{{asset('public/vendors/jquery-typeahead-2.11.0/jquery.typeahead.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/custom.css')}}">
 
+    <!-- Include Choices CSS -->
+    <link rel="stylesheet" href="{{asset('public/vendors/choices.js/choices.min.css')}}" />
+
     <link rel="shortcut icon" href="{{asset('public/images/favicon.svg')}}" type="image/x-icon">
 </head>
 
@@ -90,12 +93,7 @@
                                     <li>
                                         <h6 class="dropdown-header">Hello, John!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                                            Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-key me-2"></i> Ubah Password</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -129,6 +127,14 @@
     <script src="{{asset('public/vendors/moment/id.min.js')}}"></script>
 
     <script src="{{asset('public/js/custom.js')}}"></script>
+    
+    <!-- Sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Include Choices JavaScript -->
+    <script src="{{asset('public/vendors/choices.js/choices.min.js')}}"></script>
+    <script src="{{asset('public/js/pages/form-element-select.js')}}"></script>
+
     @stack('script2')
     @yield('script')
 </body>

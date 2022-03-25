@@ -8,6 +8,8 @@ class Pegawai extends Model
 {
     protected $table = 'mpegawai';
 
+    public $timestamps = false;
+
     protected $fillable = [
         "nik",
         "nip",

@@ -7,11 +7,11 @@
 }
 
 .colored-toast.swal2-icon-success {
-    background-color: var(--success) !important;
+    background-color: #198754 !important;
 }
 
 .colored-toast.swal2-icon-error {
-    background-color: var(--danger) !important;
+    background-color: #dc3545 !important;
 }
 
 .colored-toast.swal2-icon-warning {
@@ -310,4 +310,8 @@ div.dataTables_wrapper div.dataTables_paginate .active a{
     width: calc(100% - 32px);
     left: 16px;
     top: calc(100% - 30px);
+  }
+
+.text-right{
+    text-align: right;
 }
