@@ -151,6 +151,7 @@ active
         var id=tr.find("td:eq(0)").text().trim(); 
         var nama=tr.find("td:eq(1)").text().trim(); 
     
+        
         $modal.find('input[name=id]').val(id);
         $modal.find('input[name=nama]').val(nama);
     }
