@@ -83,6 +83,60 @@ class DataMasterController extends Controller
         $model->save();
         return back()->with('success','Berhasil Menyimpan');
     }
+    public function storeUpdateGolongan(Request $request){
+        $userId = Auth::id();
+        
+        $input = array_map('trim', $request->all());
+        $validator = Validator::make($input, [
+            'id' => 'nullable|exists:mgolongan,id',
+            'golongan' => 'required|string',
+            'nama' => 'required|string',
+        ]);
+        if ($validator->fails()) return back()->with('error','Gagal Menyimpan');
+        try {
+            $input = $validator->valid();
+            if(isset($input['id'])){
+                $model = Golongan::firstOrNew([
+                    'id' => $input['id']
+                ]);
+            }else{
+                $model = new Golongan();
+            }
+            $model->fill($input);    
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+        
+        $model->save();
+        return back()->with('success','Berhasil Menyimpan');
+    }
+    public function storeUpdateJabatan(Request $request){
+        $userId = Auth::id();
+        
+        $input = array_map('trim', $request->all());
+        $validator = Validator::make($input, [
+            'id' => 'nullable|exists:mjabatan,id',
+            'nama' => 'required|string',
+            'detail' => 'required|string',
+        ]);
+        if ($validator->fails()) return back()->with('error','Gagal Menyimpan');
+        try {
+            $input = $validator->valid();
+            if(isset($input['id'])){
+                $model = Jabatan::firstOrNew([
+                    'id' => $input['id']
+                ]);
+            }else{
+                $model = new Jabatan();
+            }
+            $model->fill($input);    
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+        
+        $model->save();
+        return back()->with('success','Berhasil Menyimpan');
+    }
     public function storeUpdatePendidikan(Request $request){
         $userId = Auth::id();
         

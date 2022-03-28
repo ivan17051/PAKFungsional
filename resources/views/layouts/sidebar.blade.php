@@ -4,7 +4,10 @@
         <div class="sidebar-header">
             <div class="d-flex justify-content-between">
                 <div class="logo">
-                    <a href="{{url('/')}}"><img src="{{asset('public/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
+                    <a href="{{url('/')}}">
+                        <h1 class="text-secondary">PAK!!</h1>
+                        <!-- <img src="{{asset('public/images/logo/logo.png')}}" alt="Logo" srcset=""> -->
+                    </a>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -46,7 +49,7 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-title">Forms &amp; Tables</li>
+                <li class="sidebar-title">Form Penilaian</li>
 
                 <li class="sidebar-item  @yield('penilaianStatus')">
                     <a href="{{url('/penilaian')}}" class='sidebar-link'>

@@ -98,8 +98,8 @@ active
           <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                   <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                      <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                      <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Pendidikan</li>
                   </ol>
               </nav>
           </div>
@@ -151,7 +151,6 @@ active
         var id=tr.find("td:eq(0)").text().trim(); 
         var nama=tr.find("td:eq(1)").text().trim(); 
     
-        
         $modal.find('input[name=id]').val(id);
         $modal.find('input[name=nama]').val(nama);
     }

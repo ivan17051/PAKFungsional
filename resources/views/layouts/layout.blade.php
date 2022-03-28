@@ -29,7 +29,6 @@
 
 <body>
     <div id="app">
-
         <!-- Sidebar -->
         @yield('sidebar')
         <!-- End of Sidebar -->
@@ -49,36 +48,13 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li class="nav-item dropdown me-1">
-                                    <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class='bi bi-envelope bi-sub fs-4 text-gray-600'></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <h6 class="dropdown-header">Mail</h6>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">No new mail</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown me-3">
-                                    <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <h6 class="dropdown-header">Notifications</h6>
-                                        </li>
-                                        <li><a class="dropdown-item">No notification available</a></li>
-                                    </ul>
-                                </li>
+                                
                             </ul>
                             <div class="dropdown">
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
-                                            <h6 class="mb-0 text-gray-600">John Ducky</h6>
+                                            <h6 class="mb-0 text-gray-600">{{Auth::user()->nama}}</h6>
                                             <p class="mb-0 text-sm text-gray-600">Administrator</p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
@@ -91,14 +67,15 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
                                     style="min-width: 11rem;">
                                     <li>
-                                        <h6 class="dropdown-header">Hello, John!</h6>
+                                        <h6 class="dropdown-header">Halo, {{Auth::user()->nama}}!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-key me-2"></i> Ubah Password</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ubahPasswordModal">
+                                        <i class="icon-mid bi bi-key me-2"></i> Ubah Password</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"><i
+                                                class="icon-mid bi bi-box-arrow-left me-2" ></i> Logout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -106,6 +83,80 @@
                 </nav>
             </header>
             <div id="main-content">
+            <!-- Modal Logout -->
+            <div class="modal fade text-left modal-borderless" id="logoutModal" tabindex="-1"
+                role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Logout??</h5>
+                            <button type="button" class="close rounded-pill" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Klik tombol "Logout" di bawah jika anda ingin mengakhiri sesi.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Tutup</span>
+                            </button>
+                            <button class="btn btn-danger ml-1" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Logout</span>
+                            </button>
+                        </div>
+                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Ubah Password -->
+            <div class="modal fade text-left modal-borderless" id="ubahPasswordModal" tabindex="-1"
+                role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Ubah Password</h5>
+                            <button type="button" class="close rounded-pill" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <form id="ubah-form" action="{{ url('/ubah-password') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">    
+                                <div class="form-group">
+                                    <label><b>Password Lama</b></label>
+                                    <input type="password" class="form-control" placeholder="Masukkan Password Lama" name="pass_sekarang" id="pass_sekarang">
+                                </div>
+                                <div class="form-group">
+                                    <label><b>Password Baru</b></label>
+                                    <input type="password" class="form-control" placeholder="Masukkan Password Baru" name="pass_baru" id="pass_baru">
+                                </div>
+                                <div class="form-group">
+                                    <label><b>Konfirmasi Password Baru</b></label>
+                                    <input type="password" class="form-control" placeholder="Masukkan Password Baru" name="pass_baru_konfirm" id="pass_baru_konfirm">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Tutup</span>
+                                </button>
+                                <button class="btn btn-success ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Simpan</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- Begin Page Content -->
             @yield('content')
             <!-- /.container-fluid -->
