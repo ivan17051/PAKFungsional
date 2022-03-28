@@ -52,4 +52,8 @@ class Penilaian extends Model
     public function pegawai(){
         return $this->belongsTo(Pegawai::class, 'idpegawai');
     }
+
+    public function old(){
+        return $this->belongsTo(Penilaian::class, 'old');
+    }
 }

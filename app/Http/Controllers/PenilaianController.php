@@ -16,16 +16,24 @@ use App\Penilaian;
 class PenilaianController extends Controller
 {
     public function index(){
-        return view('penilaian');
+        $unitKerja = UnitKerja::where('nama', 'LIKE', 'Puskesmas%')->select('id', 'nama')->get();
+        $golongan = Golongan::all();
+        $jabatan = Jabatan::all();
+        $pendidikan = Pendidikan::all();
+        return view('penilaian', [ 'unitKerja'=>$unitKerja, 'golongan'=>$golongan, 'jabatan'=>$jabatan, 'pendidikan'=>$pendidikan ]);
     }
     
     public function data(Request $request){
-        $data = Penilaian::where('isactive',1)->where('idpegawai',$request->input('id'));
+        $data = Penilaian::where('isactive',1)->where('idpegawai',$request->input('id'))->with('pegawai','old')
+                            ->orderBy('id', 'ASC');
         $datatable = Datatables::of($data);
         return $datatable->addIndexColumn()->make(true);
     }
 
     public function storeUpdate(Request $request){
+        $user= (object)[
+            'id'=>1,
+        ]; //dummy
         $input = array_map('trim', $request->all());
         $validator = Validator::make($input, [
             "id"                => 'nullable|exists:penilaian,id',
@@ -49,33 +57,44 @@ class PenilaianController extends Controller
         if ($validator->fails()) return back()->with('error','Gagal menyimpan');
         
         $input = $validator->valid();
-
-        if(isset($input['id'])){
-            $model = Penilaian::where('isactive',1)->where('id', $input['id'])->first();;
-            $old = Penilaian::where('isactive',1)->orderBy('id', 'DESC')->first();
+            
+        if(isset($input['id']) AND $input['id']<>""){
+            $model = Penilaian::where('isactive',1)->where('id', $input['id'])->first();
             $model->fill($input);
-            $model->fill([
-                "utama" => $old["utama_new"],
-                "pendformal" => $old["pendformal_new"],
-                "diklat" => $old["diklat_new"],
-                "sttpl" => $old["sttpl_new"],
-                "yankes" => $old["yankes_new"],
-                "profesi" => $old["profesi_new"],
-                "pengmas" => $old["pengmas_new"],
-                "penyankes" => $old["penyankes_new"],
-                "pak" => $old["pak_new"],
-            ]);
             $model->fill([
                 "idm" => $user->id,
             ]);
+            dd($model);
         }else{
             $model = new Penilaian();
+            $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
+                    + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
+                    + $input["pengmas_new"] + $input["penyankes_new"];
             $model->fill($input);
             $model->fill([
                 "idc" => $user->id,
                 "idm" => $user->id,
+                "pak" => $pak,
             ]);
+
+            // create new dengan referensi record
+            $old = Penilaian::where('isactive',1)->orderBy('id', 'DESC')->first();
+            if($old){
+                $model->fill($input);
+                $model->fill([
+                    "utama" => $old["utama_new"],
+                    "pendformal" => $old["pendformal_new"],
+                    "diklat" => $old["diklat_new"],
+                    "sttpl" => $old["sttpl_new"],
+                    "yankes" => $old["yankes_new"],
+                    "profesi" => $old["profesi_new"],
+                    "pengmas" => $old["pengmas_new"],
+                    "penyankes" => $old["penyankes_new"],
+                    "pak" => $old["pak_new"],
+                ]);
+            }
         }
+        dd($model);
         $model->save();
         return back()->with('success','Berhasil Menyimpan.');
     }
