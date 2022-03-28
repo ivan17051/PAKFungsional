@@ -17,7 +17,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/',function(){
         return view('dashboard');
     });
-        
+    Route::put('/ubah-password', 'PasswordController@update');
+
     Route::get('/unitKerja', 'DataMasterController@unitKerja');
     
     Route::get('/pegawai', 'DataMasterController@pegawai');
