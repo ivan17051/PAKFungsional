@@ -22,7 +22,6 @@ active
             @csrf
             @method('PUT')
             <input type="hidden" name="id">
-            <input type="hidden" name="old">
             <input type="hidden" name="idpegawai">
             <div class="modal-body">
                 <div class="form-body">
@@ -335,6 +334,7 @@ active
 @endsection
 
 @section('script')
+@include('layouts.alert')
 <script>
     var oTable;
     var $form = $('#tambah');
@@ -360,22 +360,28 @@ active
             $form.find('[role=excluded]').attr('disabled',false)
         }
         
-        $form.find('[role=new]').attr('disabled',false)
+        $form.find('[role=new]').attr('disabled',false).val('');
         $form.find('[name=awal]').attr('readonly',true);
-        $form.find('[name=akhir]').attr('disabled',false);
+        $form.find('[name=akhir]').attr('disabled',false).val('');;
+        $form.find('[type=submit]').attr('hidden',false);
         $form.modal('show');
     }
 
     function show(self){
         var tr = $(self).closest('tr');
-        var data = oTable.data(tr);
-        console.log(data);
+        let idx = oTable.row(tr)[0]
+        var data = oTable.data()[idx];
+
+        for(let key in data){
+            if(key) $form.find('[name='+key+']').val(data[key]);
+        }
         $form.find('.modal-title').text('Edit Penilaian');
         $form.find('[role=excluded]').attr('disabled',true);
         $form.find('[role=new]').attr('disabled',true);
         $form.find('[name=awal]').attr('readonly',true);
         $form.find('[name=akhir]').attr('disabled',true);
         $form.find('[name=id]').val(lastData['id']);
+        $form.find('[type=submit]').attr('hidden',true);
         $form.modal('show');
     }
 
@@ -409,7 +415,10 @@ active
                 { data:'awal', title:'Awal', render: function(e,d,row){return moment(row['awal']).format('L');} },
                 { data:'akhir', title:'Akhir', render: function(e,d,row){return moment(row['akhir']).format('L');} },
                 { data:'pak', title:'PAK'},
-                { data:'id', title:'Aksi', render: function(e,d,row){return '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-card-list"></i></a>'} },
+                { data:'id', title:'Aksi', render: function(e,d,row){
+                    return '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-card-list"></i></a>&nbsp'+
+                            '<a class="btn btn-sm btn-outline-primary" href="{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/'+row['id']+'" target="_blank"><i class="bi bi-receipt"></i></a>'
+                } },
             ],
             initComplete: function(settings, data){
                 Total=data['recordsTotal'];
