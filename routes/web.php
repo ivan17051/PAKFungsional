@@ -26,7 +26,7 @@ Route::get('/pegawai', 'DataMasterController@pegawai');
 Route::put('/pegawai', 'DataMasterController@storeUpdatePegawai')->name('pegawai.update');
 
 Route::get('/golongan', 'DataMasterController@golongan');
-Route::put('/golongan', 'DataMasterController@storeUpdateGolongan')->name('golongan.golongan');
+Route::put('/golongan', 'DataMasterController@storeUpdateGolongan')->name('golongan.update');
 
 Route::get('/jabatan', 'DataMasterController@jabatan');
 Route::put('/jabatan', 'DataMasterController@storeUpdateJabatan')->name('jabatan.update');
