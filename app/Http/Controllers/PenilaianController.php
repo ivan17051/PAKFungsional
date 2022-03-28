@@ -31,9 +31,7 @@ class PenilaianController extends Controller
     }
 
     public function storeUpdate(Request $request){
-        $user= (object)[
-            'id'=>1,
-        ]; //dummy
+        $user= Auth::user();
         $input = array_map('trim', $request->all());
         $validator = Validator::make($input, [
             "id"                => 'nullable|exists:penilaian,id',
@@ -64,7 +62,6 @@ class PenilaianController extends Controller
             $model->fill([
                 "idm" => $user->id,
             ]);
-            dd($model);
         }else{
             $model = new Penilaian();
             $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
@@ -80,7 +77,6 @@ class PenilaianController extends Controller
             // create new dengan referensi record
             $old = Penilaian::where('isactive',1)->orderBy('id', 'DESC')->first();
             if($old){
-                $model->fill($input);
                 $model->fill([
                     "utama" => $old["utama_new"],
                     "pendformal" => $old["pendformal_new"],
@@ -90,11 +86,10 @@ class PenilaianController extends Controller
                     "profesi" => $old["profesi_new"],
                     "pengmas" => $old["pengmas_new"],
                     "penyankes" => $old["penyankes_new"],
-                    "pak" => $old["pak_new"],
+                    "old" => $old->id,
                 ]);
             }
         }
-        dd($model);
         $model->save();
         return back()->with('success','Berhasil Menyimpan.');
     }
