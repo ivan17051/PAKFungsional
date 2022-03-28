@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="{{asset('public/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('public/vendors/simple-datatables/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/vendors/datatables/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('public/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/vendors/jquery-typeahead-2.11.0/jquery.typeahead.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/custom.css')}}">
 
     <!-- Include Choices CSS -->
@@ -120,6 +121,10 @@
     <script src="{{asset('public/js/pages/dashboard.js')}}"></script>
     <script src="{{asset('public/vendors/simple-datatables/simple-datatables.js')}}"></script>
     <script src="{{asset('public/vendors/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('public/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('public/vendors/jquery-typeahead-2.11.0/jquery.typeahead.min.js')}}"></script>
+    <script src="{{asset('public/vendors/moment/moment.min.js')}}"></script>
+    <script src="{{asset('public/vendors/moment/id.min.js')}}"></script>
 
     <script src="{{asset('public/js/custom.js')}}"></script>
     
@@ -129,6 +134,8 @@
     <!-- Include Choices JavaScript -->
     <script src="{{asset('public/vendors/choices.js/choices.min.js')}}"></script>
     <script src="{{asset('public/js/pages/form-element-select.js')}}"></script>
+
+    @stack('script2')
     @yield('script')
 </body>
 

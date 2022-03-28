@@ -23,6 +23,7 @@ Route::get('/login', function(){
 Route::get('/unitKerja', 'DataMasterController@unitKerja');
 
 Route::get('/pegawai', 'DataMasterController@pegawai');
+Route::get('/pegawai/search', 'DataMasterController@searchPegawai')->name('search.pegawai');
 Route::put('/pegawai', 'DataMasterController@storeUpdatePegawai')->name('pegawai.update');
 
 Route::get('/golongan', 'DataMasterController@golongan');

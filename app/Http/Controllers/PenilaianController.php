@@ -19,8 +19,8 @@ class PenilaianController extends Controller
         return view('penilaian');
     }
     
-    public function data(){
-        $data = Penilaian::where('isactive',1);
+    public function data(Request $request){
+        $data = Penilaian::where('isactive',1)->where('idpegawai',$request->input('id'));
         $datatable = Datatables::of($data);
         return $datatable->addIndexColumn()->make(true);
     }
