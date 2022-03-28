@@ -61,62 +61,66 @@
                                                 <td rowspan="12"></td>
                                                 <td>1.</td>
                                                 <td colspan="2">Nama</td>
-                                                <td colspan="3">MAS IVAN</td>
+                                                <td colspan="3">{{$data->pegawai->nama}}</td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
                                                 <td colspan="2">NIP</td>
-                                                <td colspan="3">982734982742</td>
+                                                <td colspan="3">{{$data->pegawai->nip}}</td>
                                             </tr>
                                             <tr>
                                                 <td>3.</td>
                                                 <td colspan="2">Nomor Seri KARPEG</td>
-                                                <td colspan="3">Q.215848</td>
+                                                <td colspan="3">{{$data->pegawai->nokartu}}</td>
                                             </tr>
                                             <tr>
                                                 <td>4.</td>
                                                 <td colspan="2">Pangkat / Golongan Ruang / TMT</td>
-                                                <td colspan="3">Penata Tk. I, III/d, 01 Oktober 2013</td>
+                                                <td colspan="3">{{$old->golongan->nama}}, {{$old->golongan->golongan}}, {{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td>5.</td>
                                                 <td colspan="2">Tempat dan Tanggal Lahir</td>
-                                                <td colspan="3">Sidoarjo, 04 April 1968</td>
+                                                <td colspan="3">{{$data->pegawai->tempatlahir}}, {{Carbon\Carbon::make($data->pegawai->tanggallahir)->translatedFormat('d F Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td>6.</td>
                                                 <td colspan="2">Jenis Kelamin</td>
-                                                <td colspan="3">Perempuan</td>
+                                                <td colspan="3">
+                                                    @if($data->pegawai->jeniskelamin=='L') Laki-laki
+                                                    @elseif($data->pegawai->jeniskelamin=='P') Perempuan
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>7.</td>
                                                 <td colspan="2">Pendidikan yang Diperhitungkan Angka Kreditnya</td>
-                                                <td colspan="3">D-III Keperawatan</td>
+                                                <td colspan="3">{{$data->pendidikan->nama}}</td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">8.</td>
                                                 <td colspan="2">Jabatan Fungsional</td>
-                                                <td colspan="3">Perawat Penyelia</td>
+                                                <td colspan="3">{{$old->jabatan->detail}}</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2">TMT</td>
-                                                <td colspan="3">01 Oktober 2013</td>
+                                                <td colspan="3">{{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">9.</td>
                                                 <td>Masa kerja Golongan</td>
                                                 <td>Lama</td>
-                                                <td colspan="3">25 Tahun 11 Bulan</td>
+                                                <td colspan="3"></td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td>Baru</td>
-                                                <td colspan="3">26 Tahun 11 Bulan</td>
+                                                <td colspan="3"></td>
                                             </tr>
                                             <tr>
                                                 <td>10.</td>
                                                 <td colspan="2">Unit kerja</td>
-                                                <td colspan="3">Puskesmas Menur</td>
+                                                <td colspan="3">{{$data->unitKerja->nama}}</td>
                                             </tr>
                                         </tbody>
                                         <tbody>
@@ -145,15 +149,51 @@
                                             </tr>
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (1) Pendidikan formal</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old->pendformal>0)
+                                                    {{number_format($old->pendformal,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->pendformal>0)
+                                                    {{number_format($data->pendformal,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                $jumlahpendformal = $old->pendformal + $data->pendformal;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahpendformal>0)
+                                                    {{number_format($jumlahpendformal,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (2) Pendidikan dan Pelatihan Fungsional/Teknis</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">-</td>
+                                                <td class="fontCenter">
+                                                    @if($old->diklat>0)
+                                                    {{number_format($old->diklat,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->diklat>0)
+                                                    {{number_format($data->diklat,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                $jumlahdiklat = $old->diklat + $data->diklat;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahdiklat>0)
+                                                    {{number_format($jumlahdiklat,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td colspan="2" style="padding-left: 38px;">   Jabatan Fungsional Perawat</td>
@@ -163,15 +203,51 @@
                                             </tr>
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (3) Pendidikan dan Pelatihan Prajabatan</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">-</td>
+                                                <td class="fontCenter">
+                                                    @if($old->sttpl>0)
+                                                    {{number_format($old->sttpl,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->sttpl>0)
+                                                    {{number_format($data->sttpl,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                $jumlahsttpl = $old->sttpl + $data->sttpl;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahsttpl>0)
+                                                    {{number_format($jumlahsttpl,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td colspan="2">B. Pelayanan Kesehatan</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">10.289</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old->yankes>0)
+                                                    {{number_format($old->yankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->yankes>0)
+                                                    {{number_format($data->yankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                $jumlahyankes = $old->yankes + $data->yankes;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahsttpl>0)
+                                                    {{number_format($jumlahyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td colspan="2">C. Pengabdian Masyarakat</td>
@@ -222,8 +298,8 @@
                                             <tr class="fontBold">
                                                 <td>III</td>
                                                 <td colspan="6">
-                                                    Dapat dipertimbangkan untuk dinaikkan dalam Jabatan Perawat Penyelia ; <br>
-                                                    Pangkat Penata; Golongan Ruang III/c ; TMT 01 Oktober 2022 ; 
+                                                    Dapat dipertimbangkan untuk dinaikkan dalam Jabatan {{$data->jabatan->detail}} ; <br>
+                                                    Pangkat {{$data->golongan->nama}}; Golongan Ruang {{$data->golongan->golongan}} ; TMT {{Carbon\Carbon::make($data->awal)->translatedFormat('d F Y')}} ; 
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -252,13 +328,13 @@
                                                     <br>
                                                     TEMBUSAN disampaikan kepada :<br>
                                                     1. Pegawai yang bersangkutan<br>
-                                                    2. Kepala Puskesmas Menur<br>
+                                                    2. Kepala {{$data->unitKerja->nama}}<br>
                                                     3. Kepala Badan Kepegawaian dan Diklat Pemerintah Kota Surabaya<br>
 
                                                 </td>
                                                 <td class="fontBold">
                                                     DITETAPKAN DI : SURABAYA<br>
-                                                    PADA TANGGAL : <br><br>
+                                                    PADA TANGGAL : {{Carbon\Carbon::make($data->dom)->translatedFormat('d M Y')}}<br><br>
                                                     <div class="fontCenter">KEPALA DINAS KESEHATAN</div>
                                                     <div class="fontCenter">KOTA SURABAYA</div>
                                                     <br>

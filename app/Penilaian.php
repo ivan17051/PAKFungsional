@@ -52,6 +52,18 @@ class Penilaian extends Model
     public function pegawai(){
         return $this->belongsTo(Pegawai::class, 'idpegawai');
     }
+    public function jabatan(){
+        return $this->belongsTo(Jabatan::class, 'idjabatan');
+    }
+    public function golongan(){
+        return $this->belongsTo(Golongan::class, 'idgolongan');
+    }
+    public function pendidikan(){
+        return $this->belongsTo(Pendidikan::class, 'idpendidikan');
+    }
+    public function unitKerja(){
+        return $this->belongsTo(UnitKerja::class, 'idunitkerja');
+    }
 
     public function old(){
         return $this->belongsTo(Penilaian::class, 'old');
