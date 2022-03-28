@@ -44,7 +44,4 @@ class User extends Authenticatable
         'password', 'token',
     ];
 
-    public function unitkerja(){
-        return $this->belongsTo(UnitKerja::class, 'idunitkerja');
-    }
 }
