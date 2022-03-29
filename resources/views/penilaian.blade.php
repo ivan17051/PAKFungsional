@@ -267,6 +267,10 @@ active
                     <i class="bx bx-x d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Tutup</span>
                 </button>
+                <span role="edit-buttons">
+                    <button type="button" class="btn btn-warning text-dark" role="trigger-edit" onclick="edit()">Edit</button>
+                    <button type="button" class="btn btn-light-danger" role="trigger-batal"  data-bs-dismiss="modal">Batal</button>
+                </span>
                 <button type="submit" class="btn btn-success ml-1">
                     <i class="bx bx-check d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Simpan</span>
@@ -356,14 +360,26 @@ active
             $('[name=penyankes]').val(lastData['penyankes_new']);
             $('[name=awal]').val(lastData['awal']);
             $('[name=akhir]').val(lastData['akhir']);
+
+            choicesList['idunitkerja'].setChoiceByValue(lastData['idunitkerja']);
+            choicesList['idgolongan'].setChoiceByValue(lastData['idgolongan']);
+            choicesList['idjabatan'].setChoiceByValue(lastData['idjabatan']);
+            choicesList['idpendidikan'].setChoiceByValue(lastData['idpendidikan']);
         }else{
             $form.find('[role=excluded]').attr('disabled',false)
         }
+
+        choicesList['idunitkerja'].enable();
+        choicesList['idgolongan'].enable();
+        choicesList['idjabatan'].enable();
+        choicesList['idpendidikan'].enable();
         
         $form.find('[role=new]').attr('disabled',false).val('');
         $form.find('[name=awal]').attr('readonly',true);
         $form.find('[name=akhir]').attr('disabled',false).val('');;
         $form.find('[type=submit]').attr('hidden',false);
+        $form.find('[role=trigger-edit]').attr('hidden',true);
+        $form.find('[role=trigger-batal]').attr('hidden',true);
         $form.modal('show');
     }
 
@@ -375,18 +391,31 @@ active
         for(let key in data){
             if(key) $form.find('[name='+key+']').val(data[key]);
         }
+        choicesList['idunitkerja'].setChoiceByValue(data['idunitkerja']).disable();
+        choicesList['idgolongan'].setChoiceByValue(data['idgolongan']).disable();
+        choicesList['idjabatan'].setChoiceByValue(data['idjabatan']).disable();
+        choicesList['idpendidikan'].setChoiceByValue(data['idpendidikan']).disable();
         $form.find('.modal-title').text('Edit Penilaian');
         $form.find('[role=excluded]').attr('disabled',true);
         $form.find('[role=new]').attr('disabled',true);
         $form.find('[name=awal]').attr('readonly',true);
         $form.find('[name=akhir]').attr('disabled',true);
-        $form.find('[name=id]').val(lastData['id']);
         $form.find('[type=submit]').attr('hidden',true);
+        $form.find('[role=trigger-edit]').attr('hidden',false);
+        $form.find('[role=trigger-batal]').attr('hidden',true);
         $form.modal('show');
     }
 
     function edit(){
+        $form.find('[role=trigger-edit]').attr('hidden',true);
+        $form.find('[role=trigger-batal]').attr('hidden',false);
+        $form.find('[type=submit]').attr('hidden',false);
+        $form.find('[role=new]').attr('disabled',false);
 
+        choicesList['idunitkerja'].enable();
+        choicesList['idgolongan'].enable();
+        choicesList['idjabatan'].enable();
+        choicesList['idpendidikan'].enable();
     }
 
     // Datatable
@@ -405,6 +434,7 @@ active
                 className: 'dataTable-selector form-select'
             },
             scrollX: true,
+            stateSave: true,
             searching: false,
             processing: true,
             serverSide: false,
@@ -428,10 +458,18 @@ active
     }
     
     callback=function(item){
+        sessionStorage.setItem('penilaian-filter', JSON.stringify(item));
         $('input[name=searchnama]').val(item['nama']);
         $('input[name=searchnip]').val(item['nip']);
         $('#searchpegawai').modal('hide');
         showTable(item['id']);
     }
+
+    $(document).ready(function(){
+        if(sessionStorage.hasOwnProperty('penilaian-filter')){
+            let item = JSON.parse( sessionStorage.getItem('penilaian-filter'));
+            callback(item);
+        }
+    })
 </script>
 @endsection
