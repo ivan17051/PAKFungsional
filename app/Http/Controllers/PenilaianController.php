@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Datatables;
 use Validator;
 use App\UnitKerja;
@@ -58,10 +59,30 @@ class PenilaianController extends Controller
             
         if(isset($input['id']) AND $input['id']<>""){
             $model = Penilaian::where('isactive',1)->where('id', $input['id'])->first();
+            $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
+                    + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
+                    + $input["pengmas_new"] + $input["penyankes_new"];
             $model->fill($input);
             $model->fill([
                 "idm" => $user->id,
+                "pak" => $pak,
             ]);
+
+            //update inputan jika id terikat pada field "old" record lainnya
+            $modelTerikat = Penilaian::where('isactive',1)->where('old', $input['id'])->first();
+            if($modelTerikat){
+                $modelTerikat->fill([
+                    "utama" => $input["utama_new"],
+                    "pendformal" => $input["pendformal_new"],
+                    "diklat" => $input["diklat_new"],
+                    "sttpl" => $input["sttpl_new"],
+                    "yankes" => $input["yankes_new"],
+                    "profesi" => $input["profesi_new"],
+                    "pengmas" => $input["pengmas_new"],
+                    "penyankes" => $input["penyankes_new"],
+                    "old" => $input["id"],
+                ]);
+            }
         }else{
             $model = new Penilaian();
             $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
@@ -90,8 +111,17 @@ class PenilaianController extends Controller
                 ]);
             }
         }
-        $model->save();
-        return back()->with('success','Berhasil Menyimpan.');
+
+        try {
+            DB::beginTransaction();
+            $model->save();
+            if($modelTerikat) $modelTerikat->save();
+            DB::commit();
+            return back()->with('success','Berhasil Menyimpan.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with('error','Gagal memproses.');
+        }
     }
 
     public function delete(Request $request){
