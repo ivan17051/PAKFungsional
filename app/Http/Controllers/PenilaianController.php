@@ -112,7 +112,7 @@ class PenilaianController extends Controller
             $old=Penilaian::where('id', $model->old)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
         else{
-            $old=[];
+            $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
         // dd($model, $old);
         return view('report.pak', ['data'=>$model, 'old'=>$old]);

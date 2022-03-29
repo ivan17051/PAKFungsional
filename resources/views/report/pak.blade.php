@@ -58,9 +58,9 @@
                                                 <td class="fontCenter" colspan="5">KETERANGAN PERORANGAN</td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="12"></td>
-                                                <td>1.</td>
-                                                <td colspan="2">Nama</td>
+                                                <td rowspan="12" style="width:5%;"></td>
+                                                <td style="width:5%;">1.</td>
+                                                <td colspan="2" style="width:45%;">Nama</td>
                                                 <td colspan="3">{{$data->pegawai->nama}}</td>
                                             </tr>
                                             <tr>
@@ -76,7 +76,13 @@
                                             <tr>
                                                 <td>4.</td>
                                                 <td colspan="2">Pangkat / Golongan Ruang / TMT</td>
-                                                <td colspan="3">{{$old->golongan->nama}}, {{$old->golongan->golongan}}, {{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}</td>
+                                                <td colspan="3">
+                                                    @if($old)
+                                                    {{$old->golongan->nama}}, {{$old->golongan->golongan}}, {{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}
+                                                    @else
+                                                    -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>5.</td>
@@ -100,11 +106,23 @@
                                             <tr>
                                                 <td rowspan="2">8.</td>
                                                 <td colspan="2">Jabatan Fungsional</td>
-                                                <td colspan="3">{{$old->jabatan->detail}}</td>
+                                                <td colspan="3">
+                                                    @if($old)
+                                                    {{$old->jabatan->detail}}
+                                                    @else
+                                                    -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2">TMT</td>
-                                                <td colspan="3">{{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}</td>
+                                                <td colspan="3">
+                                                    @if($old)
+                                                    {{Carbon\Carbon::make($old->awal)->translatedFormat('d F Y')}}
+                                                    @else
+                                                    -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">9.</td>
@@ -128,8 +146,8 @@
                                                 <td>II</td>
                                                 <td></td>
                                                 <td class="fontCenter" colspan="2">PENETAPAN ANGKA KREDIT</td>
-                                                <td>LAMA</td>
-                                                <td>BARU</td>
+                                                <td style="width:15%;">LAMA</td>
+                                                <td style="width:15%;">BARU</td>
                                                 <td>JUMLAH</td>
                                             </tr>
                                             <tr>
@@ -150,7 +168,7 @@
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (1) Pendidikan formal</td>
                                                 <td class="fontCenter">
-                                                    @if($old->pendformal>0)
+                                                    @if($old && $old->pendformal>0)
                                                     {{number_format($old->pendformal,3)}}
                                                     @else -
                                                     @endif
@@ -162,7 +180,8 @@
                                                     @endif
                                                 </td>
                                                 @php
-                                                $jumlahpendformal = $old->pendformal + $data->pendformal;
+                                                if($old) $jumlahpendformal = $old->pendformal + $data->pendformal;
+                                                else $jumlahpendformal = $data->pendformal;
                                                 @endphp
                                                 <td class="fontCenter">
                                                     @if($jumlahpendformal>0)
@@ -174,19 +193,20 @@
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (2) Pendidikan dan Pelatihan Fungsional/Teknis</td>
                                                 <td class="fontCenter">
-                                                    @if($old->diklat>0)
+                                                    @if($old && $old->diklat>0)
                                                     {{number_format($old->diklat,3)}}
                                                     @else -
                                                     @endif
                                                 </td>
                                                 <td class="fontCenter">
-                                                    @if($data->diklat>0)
+                                                    @if($old && $data->diklat>0)
                                                     {{number_format($data->diklat,3)}}
                                                     @else -
                                                     @endif
                                                 </td>
                                                 @php
-                                                $jumlahdiklat = $old->diklat + $data->diklat;
+                                                if($old) $jumlahdiklat = $old->diklat + $data->diklat;
+                                                else $jumlahdiklat = $data->diklat;
                                                 @endphp
                                                 <td class="fontCenter">
                                                     @if($jumlahdiklat>0)
@@ -204,7 +224,7 @@
                                             <tr >
                                                 <td colspan="2" style="padding-left: 16px;">  (3) Pendidikan dan Pelatihan Prajabatan</td>
                                                 <td class="fontCenter">
-                                                    @if($old->sttpl>0)
+                                                    @if($old && $old->sttpl>0)
                                                     {{number_format($old->sttpl,3)}}
                                                     @else -
                                                     @endif
@@ -216,7 +236,8 @@
                                                     @endif
                                                 </td>
                                                 @php
-                                                $jumlahsttpl = $old->sttpl + $data->sttpl;
+                                                if($old) $jumlahsttpl = $old->sttpl + $data->sttpl;
+                                                else $jumlahsttpl = $data->sttpl;
                                                 @endphp
                                                 <td class="fontCenter">
                                                     @if($jumlahsttpl>0)
@@ -228,7 +249,7 @@
                                             <tr >
                                                 <td colspan="2">B. Pelayanan Kesehatan</td>
                                                 <td class="fontCenter">
-                                                    @if($old->yankes>0)
+                                                    @if($old && $old->yankes>0)
                                                     {{number_format($old->yankes,3)}}
                                                     @else -
                                                     @endif
@@ -240,10 +261,11 @@
                                                     @endif
                                                 </td>
                                                 @php
-                                                $jumlahyankes = $old->yankes + $data->yankes;
+                                                if($old) $jumlahyankes = $old->yankes + $data->yankes;
+                                                else $jumlahyankes = $data->yankes;
                                                 @endphp
                                                 <td class="fontCenter">
-                                                    @if($jumlahsttpl>0)
+                                                    @if($jumlahyankes>0)
                                                     {{number_format($jumlahyankes,3)}}
                                                     @else -
                                                     @endif
@@ -251,21 +273,82 @@
                                             </tr>
                                             <tr >
                                                 <td colspan="2">C. Pengabdian Masyarakat</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old && $old->pengmas>0)
+                                                    {{number_format($old->pengmas,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->pengmas>0)
+                                                    {{number_format($data->pengmas,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                if($old) $jumlahpengmas = $old->pengmas + $data->pengmas;
+                                                else $jumlahpengmas = $data->pengmas;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahpengmas>0)
+                                                    {{number_format($jumlahpengmas,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td colspan="2">D. Pengembangan Profesi</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old && $old->profesi>0)
+                                                    {{number_format($old->profesi,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->profesi>0)
+                                                    {{number_format($data->profesi,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                if($old) $jumlahprofesi = $old->profesi + $data->profesi;
+                                                else $jumlahprofesi = $data->profesi;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahprofesi>0)
+                                                    {{number_format($jumlahprofesi,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td class="fontCenter fontBold" colspan="2">JUMLAH UNSUR UTAMA</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                @php
+                                                if($old) $jumlahutamalama = $old->pendformal + $old->diklat + $old->sttpl + $old->yankes + $old->pengmas + $old->profesi;
+                                                else $jumlahutamalama = 0;
+                                                $jumlahutamabaru = $data->pendformal + $data->diklat + $data->sttpl + $data->yankes + $data->pengmas + $data->profesi;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahutamalama>0)
+                                                    {{number_format($jumlahutamalama,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($jumlahutamabaru>0)
+                                                    {{number_format($jumlahutamabaru,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                $jumlahutama = $jumlahutamalama + $jumlahutamabaru;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahutama>0)
+                                                    {{number_format($jumlahutama,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
@@ -277,21 +360,80 @@
                                             <tr>
                                                 <td rowspan="2"></td>
                                                 <td colspan="2">Penunjang Pelayanan Kesehatan</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old && $old->penyankes>0)
+                                                    {{number_format($old->penyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->penyankes>0)
+                                                    {{number_format($data->penyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                if($old) $jumlahpenyankes = $old->penyankes + $data->penyankes;
+                                                else $jumlahpenyankes = $data->penyankes;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahpenyankes>0)
+                                                    {{number_format($jumlahpenyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr >
                                                 <td class="fontCenter fontBold" colspan="2">JUMLAH UNSUR PENUNJANG	</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old && $old->penyankes>0)
+                                                    {{number_format($old->penyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($data->penyankes>0)
+                                                    {{number_format($data->penyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                if($old) $jumlahpenyankes = $old->penyankes + $data->penyankes;
+                                                else $jumlahpenyankes = $data->penyankes;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlahpenyankes>0)
+                                                    {{number_format($jumlahpenyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="fontCenter fontBold" colspan="3">JUMLAH UNSUR UTAMA DAN PENUNJANG</td>
-                                                <td class="fontCenter">60.000</td>
-                                                <td class="fontCenter">-</td>
-                                                <td class="fontCenter">60.000</td>
+                                                <td class="fontCenter">
+                                                    @if($old && $jumlahutamalama+$old->penyankes>0)
+                                                    {{number_format($jumlahutamalama+$old->penyankes,3)}}
+                                                    @elseif($jumlahutamalama>0)
+                                                    {{number_format($jumlahutamalama,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                <td class="fontCenter">
+                                                    @if($jumlahutamabaru+$data->penyankes>0)
+                                                    {{number_format($jumlahutamabaru+$data->penyankes,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
+                                                @php
+                                                if($old) $jumlah = $jumlahutama+$old->penyankes+$data->penyankes;
+                                                else $jumlah = $jumlahutama+$data->penyankes;
+                                                @endphp
+                                                <td class="fontCenter">
+                                                    @if($jumlah>0)
+                                                    {{number_format($jumlah,3)}}
+                                                    @else -
+                                                    @endif
+                                                </td>
                                             </tr>
                                         </tbody>
                                         <tbody>
