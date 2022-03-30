@@ -265,8 +265,24 @@ active
   </div>
   <section class="section">
       <div class="card">
-        <div class="card-header text-right">
-              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambah">Tambah</button>
+        <div class="card-header">
+            <div class="form-group text-left">
+                <select class="choices form-select multiple-remove" multiple="multiple" id="filter">
+                    <optgroup label="Jabatan">
+                        @foreach($jabatan as $unit)
+                        <option value="{{$unit->id}}">{{$unit->nama}} - {{$unit->detail}}</option>
+                        @endforeach
+                    </optgroup>
+                    <optgroup label="Golongan">
+                        @foreach($golongan as $unit)
+                        <option value="{{$unit->id}}">{{$unit->golongan}} - {{$unit->nama}}</option>
+                        @endforeach
+                    </optgroup>
+                </select>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambah">Tambah</button>
+            </div>
           </div>
           <div class="card-body">
               <table class="table table-striped" id="table1">
@@ -318,6 +334,7 @@ active
     // Simple Datatable
     let table1 = document.querySelector('#table1');
     let dataTable = new simpleDatatables.DataTable(table1);
+    var oTable;
 
     function edit(self){
         var $modal=$('#sunting');
@@ -345,5 +362,34 @@ active
         $modal.find('input[name=alamat]').val(alamat);
         $modal.find('input[name=nohp]').val(nohp);
     }
+
+    //filter tabel
+    function filter(value, fieldDB, isRemove=false, delimitter='|'){
+        let column = fieldDB+':name';
+        let currentSearch = oTable.api().column(column).search();
+        currentSearch.split(delimitter);
+
+        currentSearch = currentSearch.split(delimitter)
+        var index = currentSearch.indexOf(value);
+        if (index !== -1) {
+            currentSearch.splice(index, 1);
+        }
+        
+        oTable.api().column(column).search( currentSearch , true, false);
+    }
+
+    document.getElementById('filter').addEventListener( 'addItem', function(e) {
+            let id = 'id'+e.detail.groupValue.toLowerCase();
+            // filter(e.detail.value, id )
+        },
+        false,
+    );
+
+    document.getElementById('filter').addEventListener( 'removeItem', function(event) {
+            let id = 'id'+e.detail.groupValue.toLowerCase();
+            // filter(e.detail.value, id, true )
+        },
+        false,
+    );
 </script>
 @endsection

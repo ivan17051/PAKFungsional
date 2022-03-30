@@ -12,9 +12,9 @@ for(let i=0; i<choices.length;i++) {
       });
   }else{
     initChoice = new Choices(choices[i]);
-    let id = choices[i].id;
-    if(id){
-      choicesList[id]=initChoice;
-    }
+  }
+  let id = choices[i].id;
+  if(id){
+    choicesList[id]=initChoice;
   }
 }
