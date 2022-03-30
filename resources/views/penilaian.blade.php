@@ -83,7 +83,7 @@ active
                             <div class="form-group">
                                 <label for="first-name-vertical">Dari</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" name="awal" class="form-control" required>
+                                    <input type="date" name="awal" class="form-control" required>
                                     <div class="form-control-icon">
                                         <i class="bi bi-calendar4-event"></i>
                                     </div>
@@ -94,7 +94,7 @@ active
                             <div class="form-group">
                                 <label for="first-name-vertical">Hingga</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="text" name="akhir" class="form-control" required>
+                                    <input type="date" name="akhir" class="form-control" required>
                                     <div class="form-control-icon">
                                         <i class="bi bi-calendar4-week"></i>
                                     </div>
@@ -346,8 +346,10 @@ active
     var lastData;
 
     function tambah(){
+        let today = moment().format("Y-MM-DD"); 
         $form.find('.modal-title').text('Tambah Penilaian');
         if(Total){
+            let newDate = moment(lastData['awal']).add(1, 'days').format("Y-MM-DD"); 
             $form.find('[role=excluded]').attr('disabled',true)
             $('[name=id]').val('');
             $('[name=utama]').val(lastData['utama_new']);
@@ -358,15 +360,17 @@ active
             $('[name=profesi]').val(lastData['profesi_new']);
             $('[name=pengmas]').val(lastData['pengmas_new']);
             $('[name=penyankes]').val(lastData['penyankes_new']);
-            $('[name=awal]').val(lastData['awal']);
+            $('[name=awal]').val(newDate);
             $('[name=akhir]').val(lastData['akhir']);
 
             choicesList['idunitkerja'].setChoiceByValue(lastData['idunitkerja']);
             choicesList['idgolongan'].setChoiceByValue(lastData['idgolongan']);
             choicesList['idjabatan'].setChoiceByValue(lastData['idjabatan']);
             choicesList['idpendidikan'].setChoiceByValue(lastData['idpendidikan']);
+            $form.find('[name=awal]').attr('readonly',true);
         }else{
-            $form.find('[role=excluded]').attr('disabled',false)
+            $form.find('[role=excluded]').val('').attr('disabled',false)
+            $form.find('[name=awal]').attr('readonly',false).val(today);
         }
 
         choicesList['idunitkerja'].enable();
@@ -375,8 +379,8 @@ active
         choicesList['idpendidikan'].enable();
         
         $form.find('[role=new]').attr('disabled',false).val('');
-        $form.find('[name=awal]').attr('readonly',true);
-        $form.find('[name=akhir]').attr('disabled',false).val('');;
+       
+        $form.find('[name=akhir]').attr('disabled',false).val(today);;
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=trigger-edit]').attr('hidden',true);
         $form.find('[role=trigger-batal]').attr('hidden',true);
