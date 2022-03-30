@@ -40,7 +40,7 @@
                                 <td class="headerFont fontCenter paddingfont" style="font-size:12px">Nomor :AA/1 02 0100/12/LS/F/{{$bulan[ltrim($mytime->format('m'),'0')]}}/{{$mytime->format('Y')}}</td>
                             </tr>
                             <tr>
-                                <td class="fontCenter paddingfont" style="font-size:12px">Masa Penilaian : Juli 2020 s/d Juni 2021</td>
+                                <td class="fontCenter paddingfont" style="font-size:12px">Masa Penilaian : {{Carbon\Carbon::make($data->awal)->translatedFormat('d F Y')}} s/d {{Carbon\Carbon::make($data->akhir)->translatedFormat('d F Y')}}</td>
                             </tr>
                             <tr>
                                 <td>&nbsp;</td>
@@ -199,7 +199,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="fontCenter">
-                                                    @if($old && $data->diklat>0)
+                                                    @if($data->diklat>0)
                                                     {{number_format($data->diklat,3)}}
                                                     @else -
                                                     @endif
