@@ -440,8 +440,16 @@
                                             <tr class="fontBold">
                                                 <td>III</td>
                                                 <td colspan="6">
+                                                @if ($tipe == 'cetak-kp')
                                                     Dapat dipertimbangkan untuk dinaikkan dalam Jabatan {{$data->jabatan->detail}} ; <br>
                                                     Pangkat {{$data->golongan->nama}}; Golongan Ruang {{$data->golongan->golongan}} ; TMT {{Carbon\Carbon::make($data->awal)->translatedFormat('d F Y')}} ; 
+                                                @elseif ($tipe == 'cetak-t')
+                                                    Penetapan Angka Kredit dalam Jabatan Fungsional {{$data->jabatan->detail}} ; <br>
+                                                    Pangkat {{$data->golongan->nama}}; Golongan Ruang {{$data->golongan->golongan}} ;
+                                                @elseif ($tipe == 'cetak-f1')
+                                                    Penetapan Angka Kredit untuk Pengangkatan Pertama dalam Jabatan Fungsional {{$data->jabatan->detail}} ; <br>
+                                                    Pangkat {{$data->golongan->nama}}; Golongan Ruang {{$data->golongan->golongan}} ;
+                                                @endif
                                                 </td>
                                             </tr>
                                         </tbody>

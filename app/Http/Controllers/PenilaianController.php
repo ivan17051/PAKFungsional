@@ -137,6 +137,7 @@ class PenilaianController extends Controller
     }
 
     public function cetak(Request $request, $idpenilaian){
+        $tipe=$request->input('tipe');
         $model=Penilaian::where('id', $idpenilaian)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         if($model->old){
             $old=Penilaian::where('id', $model->old)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
@@ -144,7 +145,6 @@ class PenilaianController extends Controller
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        // dd($model, $old);
-        return view('report.pak', ['data'=>$model, 'old'=>$old]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe ]);
     }
 }
