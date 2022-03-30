@@ -1,5 +1,9 @@
 @extends('layouts.layout')
 
+@section('title')
+Data Golongan
+@endsection
+
 @section('masterStatus')
 active
 @endsection

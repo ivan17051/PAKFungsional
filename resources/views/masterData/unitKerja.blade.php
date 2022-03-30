@@ -1,5 +1,9 @@
 @extends('layouts.layout')
 
+@section('title')
+Data Unit Kerja
+@endsection
+
 @section('masterStatus')
 active
 @endsection

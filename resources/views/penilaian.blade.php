@@ -1,5 +1,9 @@
 @extends('layouts.layout')
 
+@section('title')
+Penilaian
+@endsection
+
 @section('penilaianStatus')
 active
 @endsection
@@ -29,12 +33,23 @@ active
                         <div class="col-12">
                             <h6>Unit Kerja & Jabatan</h6>
                         </div>
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="first-name-vertical">Unit Kerja</label>
                                 <select class="choices form-select" id="idunitkerja" name="idunitkerja" required>
                                     <!-- <option value="">--PILIH--</option> -->
                                     @foreach($unitKerja as $unit)
+                                    <option value="{{$unit->id}}">{{$unit->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first-name-vertical">Pendidikan</label>
+                                <select class="choices form-select" id="idpendidikan" name="idpendidikan" required>
+                                    <!-- <option value="">--PILIH--</option> -->
+                                    @foreach($pendidikan as $unit)
                                     <option value="{{$unit->id}}">{{$unit->nama}}</option>
                                     @endforeach
                                 </select>
@@ -62,17 +77,7 @@ active
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Pendidikan</label>
-                                <select class="choices form-select" id="idpendidikan" name="idpendidikan" required>
-                                    <!-- <option value="">--PILIH--</option> -->
-                                    @foreach($pendidikan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <br>
                     <div class="row">
@@ -322,7 +327,7 @@ active
       </div>
     <div class="card" id="result-container" hidden>
         <div class="card-header text-end">
-            <button type="button" class="btn btn-primary" onclick="tambah()" ><i class="fa fa-plus"></i> Tambah</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="tambah()" ><i class="fa fa-plus"></i> Tambah</button>
         </div>
         <div class="card-body">
             <table class="table table-striped" id="table1">
@@ -344,7 +349,7 @@ active
     var $form = $('#tambah');
     var Total;
     var lastData;
-
+    const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
     function tambah(){
         let today = moment().format("Y-MM-DD"); 
         $form.find('.modal-title').text('Tambah Penilaian');
@@ -437,7 +442,7 @@ active
             select:{
                 className: 'dataTable-selector form-select'
             },
-            scrollX: true,
+            scrollX: isMobile?true:false,
             stateSave: true,
             searching: false,
             processing: true,
@@ -451,7 +456,7 @@ active
                 { data:'pak', title:'PAK'},
                 { data:'id', title:'Aksi', render: function(e,d,row){
                     return '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-card-list"></i></a>&nbsp'+
-                            '<a class="btn btn-sm btn-outline-primary" href="{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/'+row['id']+'" target="_blank"><i class="bi bi-receipt"></i></a>'
+                            '<a class="btn btn-sm btn-outline-primary" href="{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/'+row['id']+'" target="_blank"><i class="bi bi-printer"></i></a>'
                 } },
             ],
             initComplete: function(settings, data){
