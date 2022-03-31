@@ -30,40 +30,6 @@ active
             @method('PUT')
             <div class="modal-body">
                 <div class="form-body">
-                    <!-- <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Unit Kerja</label>
-                                <select class="choices form-select" id="unitkerja" name="unitkerja" required>
-                                    @foreach($unitKerja as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Golongan</label>
-                                <select class="choices form-select" id="golongan" name="golongan" required>
-                                    @foreach($golongan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->golongan}} - {{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Jabatan</label>
-                                <select class="choices form-select" id="jabatan" name="jabatan" required>
-                                    @foreach($jabatan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}} - {{$unit->detail}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -275,38 +241,8 @@ active
           <div class="card-body">
               <table class="table table-striped" id="table1">
                   <thead>
-                      <tr>
-                          <th hidden>id</th>
-                          <th hidden>nik</th>
-                          <th>NIP</th>
-                          <th>Nama</th>
-                          <th>No. Kartu</th>
-                          <th hidden>tempatlahir</th>
-                          <th hidden>tanggallahir</th>
-                          <th hidden>jeniskelamin</th>
-                          <th hidden>alamat</th>
-                          <th>No. HP</th>
-                          <th>Aksi</th>
-                      </tr>
                   </thead>
                   <tbody>
-                      @foreach($pegawai as $unit)
-                      <tr>
-                          <td hidden>{{$unit->id}}</td>
-                          <td hidden>{{$unit->nik}}</td>
-                          <td>{{$unit->nip}}</td>
-                          <td>{{$unit->nama}}</td>
-                          <td>{{$unit->nokartu}}</td>
-                          <td hidden>{{$unit->tempatlahir}}</td>
-                          <td hidden>{{$unit->tanggallahir}}</td>
-                          <td hidden>{{$unit->jeniskelamin}}</td>
-                          <td hidden>{{$unit->alamat}}</td>
-                          <td>{{$unit->nohp}}</td>
-                          <td>
-                            <a onclick="edit(this)" data-bs-toggle="modal" data-bs-target="#sunting" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil-square"></i></a>
-                          </td>
-                      </tr>
-                      @endforeach
                   </tbody>
               </table>
           </div>
@@ -319,35 +255,66 @@ active
 @section('script')
 @include('layouts.alert')
 <script>
-    // Simple Datatable
-    let table1 = document.querySelector('#table1');
-    let dataTable = new simpleDatatables.DataTable(table1);
+
+    var oTable;
+    const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+    function show(self){
+        var tr = $(self).closest('tr');
+        let idx = oTable.row(tr)[0]
+        var data = oTable.data()[idx];
+        
+        $form.find('.modal-title').text('Edit Penilaian');
+        $form.find('[role=excluded]').attr('disabled',true);
+        $form.find('[role=new]').attr('disabled',true);
+        $form.find('[name=awal]').attr('readonly',true);
+        $form.find('[name=akhir]').attr('disabled',true);
+        $form.find('[type=submit]').attr('hidden',true);
+        $form.find('[role=trigger-edit]').attr('hidden',false);
+        $form.find('[role=trigger-batal]').attr('hidden',true);
+        $form.modal('show');
+    }
 
     function edit(self){
         var $modal=$('#sunting');
         var tr = $(self).closest('tr');
-      
-        var id=tr.find("td:eq(0)").text().trim(); 
-        var nik=tr.find("td:eq(1)").text().trim();
-        var nip=tr.find("td:eq(2)").text().trim(); 
-        var nama=tr.find("td:eq(3)").text().trim(); 
-        var nokartu=tr.find("td:eq(4)").text().trim(); 
-        var tempatlahir=tr.find("td:eq(5)").text().trim();
-        var tanggallahir=tr.find("td:eq(6)").text().trim();
-        var jeniskelamin=tr.find("td:eq(7)").text().trim();
-        var alamat=tr.find("td:eq(8)").text().trim();
-        var nohp=tr.find("td:eq(9)").text().trim(); 
+        let idx = oTable.row(tr)[0]
+        var data = oTable.data()[idx];
         
-        $modal.find('input[name=id]').val(id);
-        $modal.find('input[name=nik]').val(nik);
-        $modal.find('input[name=nip]').val(nip);
-        $modal.find('input[name=nama]').val(nama);
-        $modal.find('input[name=nokartu]').val(nokartu);
-        $modal.find('input[name=tempatlahir]').val(tempatlahir);
-        $modal.find('input[name=tanggallahir]').val(tanggallahir);
-        $modal.find('select[name=jeniskelamin]').val(jeniskelamin).change();
-        $modal.find('input[name=alamat]').val(alamat);
-        $modal.find('input[name=nohp]').val(nohp);
+        $modal.find('input[name=id]').val(data['id']);
+        $modal.find('input[name=nik]').val(data['nik']);
+        $modal.find('input[name=nip]').val(data['nip']);
+        $modal.find('input[name=nama]').val(data['nama']);
+        $modal.find('input[name=nokartu]').val(data['nokartu']);
+        $modal.find('input[name=tempatlahir]').val(data['tempatlahir']);
+        $modal.find('input[name=tanggallahir]').val(data['tanggallahir']);
+        $modal.find('select[name=jeniskelamin]').val(data['jeniskelamin']).change();
+        $modal.find('input[name=alamat]').val(data['alamat']);
+        $modal.find('input[name=nohp]').val(data['nohp']);
     }
+
+    $(document).ready(function(){
+        oTable = $("#table1").DataTable({
+            select:{
+                className: 'dataTable-selector form-select'
+            },
+            scrollX: isMobile?true:false,
+            processing: true,
+            serverSide: true,
+            ajax: {type: "POST", url: '{{route("pegawai.data")}}', data:{'_token':@json(csrf_token())}},
+            columns: [
+                { data:'golongan', title:'Golongan', visible: false},
+                { data:'nip', title:'NIP'},
+                { data:'nama', title:'Nama'},
+                { data:'nokartu', title:'No. Kartu'},
+                { data:'nohp', title:'No. HP', visible: false},
+                { data:'nik', title:'NIK', visible: false},
+                { data:'tempatlahir', title:'TempatLahir', visible: false},
+                { data:'tanggallahir', title:'TanggalLahir', visible: false},
+                { data:'alamat', title:'Alamat', visible: false},
+                { data:'action', title:'Aksi'},
+            ],
+        });
+    });
 </script>
 @endsection

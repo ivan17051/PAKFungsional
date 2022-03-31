@@ -21,4 +21,11 @@ class Pegawai extends Model
         "alamat",
         "nohp",
     ];
+
+    public function penilaian(){
+        return $this->hasOne(Penilaian::class, 'idpegawai')
+            ->select('id', 'idjabatan', 'idpegawai', 'idgolongan', 'idpendidikan', 'idunitkerja', 'doc')
+            ->latest('doc');
+    }
+    
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Datatables;
 use App\UnitKerja;
 use App\Golongan;
 use App\Pegawai;
@@ -18,13 +19,47 @@ class DataMasterController extends Controller
         return view('masterData.unitKerja', ['unitKerja'=>$unitKerja]);
     }
     public function pegawai(){
-        $pegawai = Pegawai::all();
-        $unitKerja = UnitKerja::where('nama', 'LIKE', 'Puskesmas%')->select('id', 'nama')->get();
-        $golongan = Golongan::all();
-        $jabatan = Jabatan::all();
-        
-        return view('masterData.pegawai', ['pegawai'=>$pegawai, 'unitKerja'=>$unitKerja, 'golongan'=>$golongan, 'jabatan'=>$jabatan]);
+        return view('masterData.pegawai');
     }
+    public function pegawaiData(Request $request){
+        $data = Pegawai::with('penilaian')->get();
+        
+        $datatable = Datatables::of($data);
+        $datatable->addIndexColumn()
+            ->addColumn('golongan', function ($t){
+                if(isset($t->penilaian))
+                    return $t->penilaian->idgolongan;
+                else
+                    return '-';
+            })
+            ->addColumn('jabatan', function ($t){
+                if(isset($t->penilaian))
+                    return $t->penilaian->idjabatan;
+                else
+                    return '-';
+            })
+            ->addColumn('pendidikan', function ($t) { 
+                if(isset($t->penilaian))
+                    return $t->penilaian->idpendidikan;
+                else
+                    return '-';
+            })
+            ->addColumn('unitkerja', function ($t) {
+                if(isset($t->penilaian))
+                    return $t->penilaian->idunitkerja;
+                else
+                    return '-';
+            })
+            ->rawColumns(['nip','nik','nama','nokartu','tempatlahir','tanggallahir', 'jeniskelamin', 'alamat', 'nohp', 'action']);
+        
+        $datatable->addColumn('action', function ($t) { 
+                return '<a class="btn btn-sm btn-outline-warning" onclick="edit(this)" data-bs-toggle="modal" data-bs-target="#sunting"><i class="bi bi-pencil-square"></i></a>&nbsp'.
+                '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-box-arrow-up-right"></i></a>&nbsp';
+            });
+        
+        return $datatable->make(true); 
+    }
+
     public function golongan(){
         $golongan = Golongan::all();
         return view('masterData.golongan', ['golongan'=>$golongan]);
