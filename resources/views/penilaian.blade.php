@@ -285,6 +285,26 @@ active
         </div>
     </div>
 </div>
+<!-- Modal Cetak -->
+<div class="modal fade text-left modal-borderless" id="cetak" tabindex="-1"
+    role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak</h5>
+                <button type="button" class="close rounded-pill" data-bs-dismiss="modal"
+                    aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body text-end">
+                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-kp" >PAK Kenaikan Pangkat</a>
+                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-t" >PAK Temporer</a>
+                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-f1" >PAK Fungsional 1</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="page-heading">
   <div class="page-title">
       <div class="row">
@@ -456,7 +476,7 @@ active
                 { data:'pak', title:'PAK'},
                 { data:'id', title:'Aksi', render: function(e,d,row){
                     return '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-card-list"></i></a>&nbsp'+
-                            '<a class="btn btn-sm btn-outline-primary" href="{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/'+row['id']+'" target="_blank"><i class="bi bi-printer"></i></a>'
+                            '<button class="btn btn-sm btn-outline-primary" onclick="showCetak(this, '+row['id']+')" ><i class="bi bi-printer"></i></button>'
                 } },
             ],
             initComplete: function(settings, data){
@@ -472,6 +492,14 @@ active
         $('input[name=searchnip]').val(item['nip']);
         $('#searchpegawai').modal('hide');
         showTable(item['id']);
+    }
+
+    function showCetak(self, idpenilaian){
+        let link='{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/';
+        $('#cetak-kp').prop('href', link+idpenilaian+'?tipe=cetak-kp');
+        $('#cetak-t').prop('href', link+idpenilaian+'?tipe=cetak-t');
+        $('#cetak-f1').prop('href', link+idpenilaian+'?tipe=cetak-f1');
+        $('#cetak').modal('show');
     }
 
     $(document).ready(function(){
