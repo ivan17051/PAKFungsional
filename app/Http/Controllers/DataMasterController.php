@@ -19,7 +19,9 @@ class DataMasterController extends Controller
         return view('masterData.unitKerja', ['unitKerja'=>$unitKerja]);
     }
     public function pegawai(){
-        return view('masterData.pegawai');
+        $jabatan = Jabatan::all();
+        $golongan = Golongan::all();
+        return view('masterData.pegawai', ['jabatan'=>$jabatan, 'golongan'=>$golongan]);
     }
     public function pegawaiData(Request $request){
         $data = Pegawai::with('penilaian')->get();

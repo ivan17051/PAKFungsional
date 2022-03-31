@@ -280,15 +280,8 @@ active
         let idx = oTable.row(tr)[0]
         var data = oTable.data()[idx];
         
-        $form.find('.modal-title').text('Edit Penilaian');
-        $form.find('[role=excluded]').attr('disabled',true);
-        $form.find('[role=new]').attr('disabled',true);
-        $form.find('[name=awal]').attr('readonly',true);
-        $form.find('[name=akhir]').attr('disabled',true);
-        $form.find('[type=submit]').attr('hidden',true);
-        $form.find('[role=trigger-edit]').attr('hidden',false);
-        $form.find('[role=trigger-batal]').attr('hidden',true);
-        $form.modal('show');
+        sessionStorage.setItem('penilaian-filter', JSON.stringify(data));
+        window.location.href = "{{url('/penilaian')}}";
     }
 
     function edit(self){
