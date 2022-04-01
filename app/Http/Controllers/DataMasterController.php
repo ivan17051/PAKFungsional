@@ -28,13 +28,13 @@ class DataMasterController extends Controller
         
         $datatable = Datatables::of($data);
         $datatable->addIndexColumn()
-            ->addColumn('golongan', function ($t){
+            ->addColumn('idgolongan', function ($t){
                 if(isset($t->penilaian))
                     return $t->penilaian->idgolongan;
                 else
                     return '-';
             })
-            ->addColumn('jabatan', function ($t){
+            ->addColumn('idjabatan', function ($t){
                 if(isset($t->penilaian))
                     return $t->penilaian->idjabatan;
                 else
@@ -52,7 +52,7 @@ class DataMasterController extends Controller
                 else
                     return '-';
             })
-            ->rawColumns(['nip','nik','nama','nokartu','tempatlahir','tanggallahir', 'jeniskelamin', 'alamat', 'nohp', 'action']);
+            ->rawColumns(['id','nip','nik','nama','nokartu','tempatlahir','tanggallahir', 'jeniskelamin', 'alamat', 'nohp', 'action']);
         
         $datatable->addColumn('action', function ($t) { 
                 return '<a class="btn btn-sm btn-outline-warning" onclick="edit(this)" data-bs-toggle="modal" data-bs-target="#sunting"><i class="bi bi-pencil-square"></i></a>&nbsp'.

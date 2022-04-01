@@ -312,7 +312,9 @@ active
             serverSide: true,
             ajax: {type: "POST", url: '{{route("pegawai.data")}}', data:{'_token':@json(csrf_token())}},
             columns: [
-                { data:'golongan', title:'Golongan', visible: false},
+                { data:'id', title:'ID', visible: false},
+                { data:'idgolongan', title:'idgolongan', name:'idgolongan', visible: false},
+                { data:'idjabatan', title:'idjabatan', name:'idjabatan', visible: false},
                 { data:'nip', title:'NIP'},
                 { data:'nama', title:'Nama'},
                 { data:'nokartu', title:'No. Kartu'},
@@ -327,30 +329,52 @@ active
     });
 
     //filter tabel
-    function filter(value, fieldDB, isRemove=false, delimitter='|'){
+    function filter(value, fieldDB, isRemove=false, delimitter="|"){
         let column = fieldDB+':name';
-        let currentSearch = oTable.api().column(column).search();
-        currentSearch.split(delimitter);
-
-        currentSearch = currentSearch.split(delimitter)
-        var index = currentSearch.indexOf(value);
-        if (index !== -1) {
-            currentSearch.splice(index, 1);
+        let currentSearch = oTable.column(column).search();
+        
+        if(isRemove==true){
+            currentSearch = currentSearch.split(delimitter);
+            var index = currentSearch.indexOf(value);
+            
+            if (index !== -1) {
+                currentSearch.splice(index, 1);
+            }
+            input = ''
+            currentSearch.forEach(unit => {
+                if(input==''){
+                    input = unit;
+                }
+                else{
+                    input += ('|'+unit);
+                }
+            });
+            if(currentSearch==[]) input='';
+            currentSearch = input;
+        }
+        else{
+            if(currentSearch==''){
+                currentSearch = value;
+            }
+            else{
+                currentSearch += ('|'+value);
+            }
         }
         
-        oTable.api().column(column).search( currentSearch , true, false);
+        oTable.column(column).search( currentSearch , true, false);
+        oTable.draw();
     }
 
     document.getElementById('filter').addEventListener( 'addItem', function(e) {
             let id = 'id'+e.detail.groupValue.toLowerCase();
-            // filter(e.detail.value, id )
+            filter(e.detail.value, id )
         },
         false,
     );
 
-    document.getElementById('filter').addEventListener( 'removeItem', function(event) {
+    document.getElementById('filter').addEventListener( 'removeItem', function(e) {
             let id = 'id'+e.detail.groupValue.toLowerCase();
-            // filter(e.detail.value, id, true )
+            filter(e.detail.value, id, true )
         },
         false,
     );
