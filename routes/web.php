@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/unitKerja', 'DataMasterController@unitKerja');
     
     Route::get('/pegawai', 'DataMasterController@pegawai');
+    Route::post('/pegawai/data', 'DataMasterController@pegawaiData')->name('pegawai.data');
     Route::get('/pegawai/search', 'DataMasterController@searchPegawai')->name('search.pegawai');
     Route::put('/pegawai', 'DataMasterController@storeUpdatePegawai')->name('pegawai.update');
     

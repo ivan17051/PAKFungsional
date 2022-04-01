@@ -63,7 +63,8 @@ class Penilaian extends Model
         return $this->belongsTo(Pendidikan::class, 'idpendidikan');
     }
     public function unitKerja(){
-        return $this->belongsTo(UnitKerja::class, 'idunitkerja');
+        return $this->belongsTo(UnitKerja::class, 'idunitkerja')
+            ->select('id', 'nama', 'nama_alias', 'alamat');
     }
 
     public function old(){
