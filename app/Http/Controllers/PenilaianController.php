@@ -13,6 +13,7 @@ use App\Pegawai;
 use App\Jabatan;
 use App\Pendidikan;
 use App\Penilaian;
+use Carbon\Carbon;
 
 class PenilaianController extends Controller
 {
@@ -143,12 +144,20 @@ class PenilaianController extends Controller
     public function cetak(Request $request, $idpenilaian){
         $tipe=$request->input('tipe');
         $model=Penilaian::where('id', $idpenilaian)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
+        
+        $akhir = $model->akhir->copy();
+        $awal = $model->awal->copy();
+        $akhir->day = 1;
+        $awal->day = 1;
+        $masakerjaold = $model->masakerja - ceil($akhir->floatDiffInMonths($awal));
+        $masakerja = $model->masakerja;
+
         if($model->old){
             $old=Penilaian::where('id', $model->old)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe ]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe, 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
     }
 }

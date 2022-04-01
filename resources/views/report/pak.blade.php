@@ -128,12 +128,12 @@
                                                 <td rowspan="2">9.</td>
                                                 <td>Masa kerja Golongan</td>
                                                 <td>Lama</td>
-                                                <td colspan="3"></td>
+                                                <td colspan="3">{{ sprintf("%02d", floor($masakerjaold/12)) }} Tahun {{ sprintf("%02d", $masakerjaold%12) }} Bulan</td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td>Baru</td>
-                                                <td colspan="3"></td>
+                                                <td colspan="3">{{ sprintf("%02d", floor($masakerja/12)) }} Tahun {{ sprintf("%02d", $masakerja%12) }} Bulan</td>
                                             </tr>
                                             <tr>
                                                 <td>10.</td>
