@@ -99,11 +99,27 @@ active
                             <div class="form-group">
                                 <label for="first-name-vertical">Hingga</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="date" name="akhir" class="form-control" required>
+                                    <input type="date" name="akhir" class="form-control" onchange="refreshMasaKerja()" required>
                                     <div class="form-control-icon">
                                         <i class="bi bi-calendar4-week"></i>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun_old" disabled>
+                                <span class="input-group-text">Tahun</span>
+                                <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan_old" disabled>
+                                <span class="input-group-text">Bulan</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun" onchange="refreshMasaKerja()" min="0" required>
+                                <span class="input-group-text">Tahun</span>
+                                <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan" onchange="refreshMasaKerja()" min="0" max="11" required>
+                                <span class="input-group-text">Bulan</span>
                             </div>
                         </div>
                     </div>
@@ -369,11 +385,13 @@ active
     var $form = $('#tambah');
     var Total;
     var lastData;
+    var curData;
     const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
     function tambah(){
         let today = moment().format("Y-MM-DD"); 
         $form.find('.modal-title').text('Tambah Penilaian');
         if(Total){
+            curData=lastData;
             let newDate = moment(lastData['awal']).add(1, 'days').format("Y-MM-DD"); 
             $form.find('[role=excluded]').attr('disabled',true)
             $('[name=id]').val('');
@@ -386,7 +404,9 @@ active
             $('[name=pengmas]').val(lastData['pengmas_new']);
             $('[name=penyankes]').val(lastData['penyankes_new']);
             $('[name=awal]').val(newDate);
-            $('[name=akhir]').val(lastData['akhir']);
+
+            $('[name=masakerjatahun]').attr('readonly',true);
+            $('[name=masakerjabulan]').attr('readonly',true);
 
             choicesList['idunitkerja'].setChoiceByValue(lastData['idunitkerja']);
             choicesList['idgolongan'].setChoiceByValue(lastData['idgolongan']);
@@ -394,8 +414,12 @@ active
             choicesList['idpendidikan'].setChoiceByValue(lastData['idpendidikan']);
             $form.find('[name=awal]').attr('readonly',true);
         }else{
+            curData=null;
             $form.find('[role=excluded]').val('').attr('disabled',false)
             $form.find('[name=awal]').attr('readonly',false).val(today);
+
+            $('[name=masakerjatahun]').attr('readonly',false).val(0);
+            $('[name=masakerjabulan]').attr('readonly',false).val(0);
         }
 
         choicesList['idunitkerja'].enable();
@@ -405,7 +429,7 @@ active
         
         $form.find('[role=new]').attr('disabled',false).val('');
        
-        $form.find('[name=akhir]').attr('disabled',false).val(today);;
+        $form.find('[name=akhir]').attr('readonly',false).val(today).change();
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=trigger-edit]').attr('hidden',true);
         $form.find('[role=trigger-batal]').attr('hidden',true);
@@ -416,6 +440,7 @@ active
         var tr = $(self).closest('tr');
         let idx = oTable.row(tr)[0]
         var data = oTable.data()[idx];
+        curData = data;
 
         for(let key in data){
             if(key) $form.find('[name='+key+']').val(data[key]);
@@ -428,7 +453,9 @@ active
         $form.find('[role=excluded]').attr('disabled',true);
         $form.find('[role=new]').attr('disabled',true);
         $form.find('[name=awal]').attr('readonly',true);
-        $form.find('[name=akhir]').attr('disabled',true);
+        $form.find('[name=akhir]').attr('readonly',true).change();
+        $form.find('[name=masakerjatahun]').attr('readonly',true);
+        $form.find('[name=masakerjabulan]').attr('readonly',true);
         $form.find('[type=submit]').attr('hidden',true);
         $form.find('[role=trigger-edit]').attr('hidden',false);
         $form.find('[role=trigger-batal]').attr('hidden',true);
@@ -441,10 +468,51 @@ active
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=new]').attr('disabled',false);
 
+        $form.find('[name=akhir]').attr('readonly',false);
+
         choicesList['idunitkerja'].enable();
         choicesList['idgolongan'].enable();
         choicesList['idjabatan'].enable();
         choicesList['idpendidikan'].enable();
+    }
+
+    function refreshMasaKerja(){
+        let masakerja=0, newmasakerja;
+        if(curData){
+            let oldawal = moment(curData['awal']);
+            oldawal.date(1);
+            let oldakhir = moment(curData['akhir']);
+            oldakhir.date(1);
+            let diff = oldakhir.diff(oldawal, 'months');
+            masakerja = curData['masakerja'];        // integer bulan
+            masakerja = masakerja - diff;
+
+            let akhir = moment($form.find('[name=akhir]').val()).date(1);
+            newmasakerja = masakerja + akhir.diff(oldawal, 'months');
+
+            $form.find('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor( masakerja/12 ) );
+            $form.find('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
+            $form.find('[name=masakerjatahun]').attr('readonly',true).val( Math.floor( newmasakerja/12 ) );
+            $form.find('[name=masakerjabulan]').attr('readonly',true).val( newmasakerja%12 );
+        }else{
+            let awal = moment($form.find('[name=awal]').val()).date(1);
+            let akhir = moment($form.find('[name=akhir]').val()).date(1);
+            let diff = akhir.diff(awal, 'months');
+
+            let diffcurrent = ($form.find('[name=masakerjatahun]').val()|0) * 12 + ($form.find('[name=masakerjabulan]').val()|0);
+
+            if(diff > diffcurrent){
+                masakerja=0;
+                newmasakerja=diff;
+            }else{
+                masakerja=diffcurrent-diff;
+                newmasakerja=diffcurrent;
+            }
+            $form.find('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor( masakerja/12 ) );
+            $form.find('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
+            $form.find('[name=masakerjatahun]').attr('readonly',false).val( Math.floor( newmasakerja/12 ) );
+            $form.find('[name=masakerjabulan]').attr('readonly',false).val( newmasakerja%12 );
+        }
     }
 
     // Datatable

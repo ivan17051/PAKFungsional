@@ -38,6 +38,8 @@ class PenilaianController extends Controller
             "id"                => 'nullable|exists:penilaian,id',
             "awal"              => 'required_without:id|date',
             "akhir"             => 'required_without:id|date',
+            "masakerjatahun"    => 'required_without:id|integer',
+            "masakerjabulan"    => 'required_without:id|integer',
             "idpegawai"         => 'required_without:id|integer',
             "idjabatan"         => 'required_without:id|integer',
             "idgolongan"        => 'required_without:id|integer',
@@ -93,10 +95,12 @@ class PenilaianController extends Controller
                 "idc" => $user->id,
                 "idm" => $user->id,
                 "pak" => $pak,
+                "masakerja" => $input['masakerjatahun']*12 + $input['masakerjabulan'],
+                // "masakerja" => strtotime("{$input['masakerjatahun']} year {$input['masakerjabulan']} month",  strtotime("2000-01-01")),
             ]);
 
             // create new dengan referensi record
-            $old = Penilaian::where('isactive',1)->orderBy('id', 'DESC')->first();
+            $old = Penilaian::where('isactive',1)->where('idpegawai', $input['idpegawai'])->orderBy('id', 'DESC')->first();
             if($old){
                 $model->fill([
                     "utama" => $old["utama_new"],
@@ -115,7 +119,7 @@ class PenilaianController extends Controller
         try {
             DB::beginTransaction();
             $model->save();
-            if($modelTerikat) $modelTerikat->save();
+            if(isset($modelTerikat)) $modelTerikat->save();
             DB::commit();
             return back()->with('success','Berhasil Menyimpan.');
         } catch (\Throwable $e) {

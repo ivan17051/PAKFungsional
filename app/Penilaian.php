@@ -19,6 +19,7 @@ class Penilaian extends Model
         "old",
         "awal",
         "akhir",
+        "masakerja",
         "idpegawai",
         "idjabatan",
         "idgolongan",
