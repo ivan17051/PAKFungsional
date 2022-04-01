@@ -13,6 +13,7 @@ use App\Pegawai;
 use App\Jabatan;
 use App\Pendidikan;
 use App\Penilaian;
+use Carbon\Carbon;
 
 class PenilaianController extends Controller
 {
@@ -38,6 +39,8 @@ class PenilaianController extends Controller
             "id"                => 'nullable|exists:penilaian,id',
             "awal"              => 'required_without:id|date',
             "akhir"             => 'required_without:id|date',
+            "masakerjatahun"    => 'required_without:id|integer',
+            "masakerjabulan"    => 'required_without:id|integer',
             "idpegawai"         => 'required_without:id|integer',
             "idjabatan"         => 'required_without:id|integer',
             "idgolongan"        => 'required_without:id|integer',
@@ -93,10 +96,12 @@ class PenilaianController extends Controller
                 "idc" => $user->id,
                 "idm" => $user->id,
                 "pak" => $pak,
+                "masakerja" => $input['masakerjatahun']*12 + $input['masakerjabulan'],
+                // "masakerja" => strtotime("{$input['masakerjatahun']} year {$input['masakerjabulan']} month",  strtotime("2000-01-01")),
             ]);
 
             // create new dengan referensi record
-            $old = Penilaian::where('isactive',1)->orderBy('id', 'DESC')->first();
+            $old = Penilaian::where('isactive',1)->where('idpegawai', $input['idpegawai'])->orderBy('id', 'DESC')->first();
             if($old){
                 $model->fill([
                     "utama" => $old["utama_new"],
@@ -115,7 +120,7 @@ class PenilaianController extends Controller
         try {
             DB::beginTransaction();
             $model->save();
-            if($modelTerikat) $modelTerikat->save();
+            if(isset($modelTerikat)) $modelTerikat->save();
             DB::commit();
             return back()->with('success','Berhasil Menyimpan.');
         } catch (\Throwable $e) {
@@ -139,12 +144,20 @@ class PenilaianController extends Controller
     public function cetak(Request $request, $idpenilaian){
         $tipe=$request->input('tipe');
         $model=Penilaian::where('id', $idpenilaian)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
+        
+        $akhir = $model->akhir->copy();
+        $awal = $model->awal->copy();
+        $akhir->day = 1;
+        $awal->day = 1;
+        $masakerjaold = $model->masakerja - ceil($akhir->floatDiffInMonths($awal));
+        $masakerja = $model->masakerja;
+
         if($model->old){
             $old=Penilaian::where('id', $model->old)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe ]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe, 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
     }
 }
