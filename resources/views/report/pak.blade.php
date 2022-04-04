@@ -37,7 +37,7 @@
                                 $bulan = ['','I','II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
                                 $mytime = Carbon\Carbon::make(date("Y-m-d"));
                                 @endphp
-                                <td class="headerFont fontCenter paddingfont" style="font-size:12px">Nomor :AA/1 02 0100/12/LS/F/{{$bulan[ltrim($mytime->format('m'),'0')]}}/{{$mytime->format('Y')}}</td>
+                                <td class="headerFont fontCenter paddingfont" style="font-size:12px">Nomor : {{$nomor}}</td>
                             </tr>
                             <tr>
                                 <td class="fontCenter paddingfont" style="font-size:12px">Masa Penilaian : {{Carbon\Carbon::make($data->awal)->translatedFormat('d F Y')}} s/d {{Carbon\Carbon::make($data->akhir)->translatedFormat('d F Y')}}</td>
