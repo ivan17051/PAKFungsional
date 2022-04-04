@@ -313,10 +313,24 @@ active
                     <i data-feather="x"></i>
                 </button>
             </div>
-            <div class="modal-body text-end">
-                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-kp" >PAK Kenaikan Pangkat</a>
-                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-t" >PAK Temporer</a>
-                <a class="btn btn-sm btn-primary" href="" target="_blank" id="cetak-f1" >PAK Fungsional 1</a>
+            <div class="modal-body">
+                <form action="/" method="get" target="_blank">
+                <input type="hidden" name="tipe" id="tipecetak">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" >Nomor</span>
+                            <input id="nomorcetak" name="nomor" maxlength="30" type="text" class="form-control" placeholder="Nomor" aria-label="nomorcetak" aria-describedby="nomor" >
+                            <button class="btn btn-secondary" onclick="$('#nomorcetak').attr('readonly',false)" type="button" ><i class="bi bi-pencil-fill"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-sm btn-primary" id="cetak-kp" data-tipe="cetak-kp" >PAK Kenaikan Pangkat</button>
+                        <button type="submit" class="btn btn-sm btn-primary" id="cetak-t" data-tipe="cetak-t" >PAK Temporer</button>
+                        <button type="submit" class="btn btn-sm btn-primary" id="cetak-f1" data-tipe="cetak-f1" >PAK Fungsional 1</button>  
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -563,10 +577,17 @@ active
     }
 
     function showCetak(self, idpenilaian){
+        var tr = $(self).closest('tr');
+        let idx = oTable.row(tr)[0]
+        var data = oTable.data()[idx];
+        curData = data;
+
         let link='{{route("penilaian.cetak", ["idpenilaian" => "" ] )}}/';
-        $('#cetak-kp').prop('href', link+idpenilaian+'?tipe=cetak-kp');
-        $('#cetak-t').prop('href', link+idpenilaian+'?tipe=cetak-t');
-        $('#cetak-f1').prop('href', link+idpenilaian+'?tipe=cetak-f1');
+        $('#cetak-kp').attr('formaction', link+idpenilaian);
+        $('#cetak-t').attr('formaction', link+idpenilaian);
+        $('#cetak-f1').attr('formaction', link+idpenilaian);
+        
+        $('#nomorcetak').val(curData['nomor'] || '').attr('readonly',true);
         $('#cetak').modal('show');
     }
 
@@ -575,6 +596,10 @@ active
             let item = JSON.parse( sessionStorage.getItem('penilaian-filter'));
             callback(item);
         }
+
+        $('[id^=cetak-]').click(function(e, v){
+            $('#tipecetak').val(e.target.dataset.tipe);
+        })
     })
 </script>
 @endsection

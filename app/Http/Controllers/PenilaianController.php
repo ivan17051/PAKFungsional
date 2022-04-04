@@ -142,8 +142,15 @@ class PenilaianController extends Controller
     }
 
     public function cetak(Request $request, $idpenilaian){
-        $tipe=$request->input('tipe');
+        $input = array_map('trim', $request->all());
         $model=Penilaian::where('id', $idpenilaian)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
+        if($model == null){
+            return back()->with('error','Gagal menghapus');
+        }
+        else if($input['nomor'] <> $model->nomor){
+            $model->nomor = $input['nomor'];
+            $model->save();
+        }
         
         $akhir = $model->akhir->copy();
         $awal = $model->awal->copy();
@@ -158,6 +165,6 @@ class PenilaianController extends Controller
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        return view('report.pak', ['data'=>$model, 'old'=>$old, 'tipe'=>$tipe, 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'nomor'=>$input['nomor'], 'tipe'=>$input['tipe'], 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
     }
 }
