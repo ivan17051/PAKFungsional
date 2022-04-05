@@ -137,3 +137,58 @@ const my={
         }
     },
 }
+
+var C = {};
+C.InputSelfEdit = class {
+    constructor(dom) {
+        this.dom = dom;
+        this.temporaryValue;
+        this.build();
+    }
+
+    build(){
+        const self = this;
+        this.dom.classList.add('input-group');
+        this.input = this.dom.getElementsByTagName('input')[0];
+        let btnEdit = document.createElement('div');
+        let btnBatal = document.createElement('div');
+        btnEdit.innerHTML = '<button class="btn btn-secondary rounded-end" type="button" title="edit"> <i class="bi bi-pencil-fill"></i></button>';
+        btnBatal.innerHTML = '<button class="btn btn-secondary rounded-end" type="button" title="batal"><i class="bi bi-x"></i></button>';
+        this.btnEdit = btnEdit.firstChild;
+        this.btnBatal = btnBatal.firstChild;
+        this.btnEdit.addEventListener("click", function(){ self.edit(); });
+        this.btnBatal.addEventListener("click", function(){ self.cancel(); });
+
+        this.dom.appendChild(this.btnEdit);
+        this.dom.appendChild(this.btnBatal);
+        this.dom.isf = this;
+    }
+
+    reset(){
+        this.temporaryValue = '';
+        this.btnEdit.removeAttribute('disabled')
+        this.btnEdit.removeAttribute('hidden');
+        this.btnBatal.setAttribute('disabled','disabled')
+        this.btnBatal.setAttribute('hidden','hidden');
+        this.btnEdit.setAttribute('readonly','readonly');
+    }
+
+    edit(){
+        this.temporaryValue = this.input.value;
+        this.btnBatal.removeAttribute('disabled');
+        this.btnEdit.setAttribute('disabled','disabled');
+        this.btnBatal.removeAttribute('hidden');
+        this.btnEdit.setAttribute('hidden','hidden');
+        this.input.removeAttribute('readonly');
+    }
+
+    cancel(){
+        this.input.value = this.temporaryValue;
+        this.btnEdit.removeAttribute('disabled');
+        this.btnBatal.setAttribute('disabled','disabled');
+        this.btnEdit.setAttribute('readonly','readonly');
+        this.btnEdit.removeAttribute('hidden');
+        this.btnBatal.setAttribute('hidden','hidden');
+        this.input.setAttribute('readonly','readonly');
+    }
+}

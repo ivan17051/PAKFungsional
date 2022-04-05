@@ -320,8 +320,7 @@ active
                     <div class="col-12">
                         <div class="input-group mb-3">
                             <span class="input-group-text" >Nomor</span>
-                            <input id="nomorcetak" name="nomor" maxlength="30" type="text" class="form-control" placeholder="Nomor" aria-label="nomorcetak" aria-describedby="nomor" >
-                            <button class="btn btn-secondary" onclick="$('#nomorcetak').attr('readonly',false)" type="button" ><i class="bi bi-pencil-fill"></i></button>
+                            <input id="nomorcetak" name="nomor" maxlength="30" type="text" class="form-control" placeholder="--isi nomor--" aria-label="nomorcetak" aria-describedby="nomor" >
                         </div>
                     </div>
                     <div class="col-12 text-end">
@@ -588,6 +587,7 @@ active
         $('#cetak-f1').attr('formaction', link+idpenilaian);
         
         $('#nomorcetak').val(curData['nomor'] || '').attr('readonly',true);
+        $('#nomorcetak').parent()[0].isf.reset();
         $('#cetak').modal('show');
     }
 
@@ -600,6 +600,9 @@ active
         $('[id^=cetak-]').click(function(e, v){
             $('#tipecetak').val(e.target.dataset.tipe);
         })
+
+        //nomorcetak self edit toggle
+        new C.InputSelfEdit($('#nomorcetak').parent()[0])
     })
 </script>
 @endsection

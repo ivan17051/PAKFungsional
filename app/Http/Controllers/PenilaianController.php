@@ -165,6 +165,6 @@ class PenilaianController extends Controller
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        return view('report.pak', ['data'=>$model, 'old'=>$old, 'nomor'=>$input['nomor'], 'tipe'=>$input['tipe'], 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'nomor'=>str_replace(' ', '&nbsp', $input['nomor']), 'tipe'=>$input['tipe'], 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
     }
 }
