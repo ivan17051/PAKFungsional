@@ -16,14 +16,23 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-title">Form Penilaian</li>
+
+                <li class="sidebar-item  @yield('penilaianStatus')">
+                    <a href="{{url('/penilaian')}}" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-medical-fill"></i>
+                        <span>Penilaian</span>
+                    </a>
+                </li>
+                
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item @yield('dashboardStatus') ">
+                <!-- <li class="sidebar-item @yield('dashboardStatus') ">
                     <a href="{{url('/')}}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
@@ -47,15 +56,6 @@
                             <a href="{{url('/pendidikan')}}">Pendidikan</a>
                         </li>
                     </ul>
-                </li>
-
-                <li class="sidebar-title">Form Penilaian</li>
-
-                <li class="sidebar-item  @yield('penilaianStatus')">
-                    <a href="{{url('/penilaian')}}" class='sidebar-link'>
-                        <i class="bi bi-file-earmark-medical-fill"></i>
-                        <span>Penilaian</span>
-                    </a>
                 </li>
 
             </ul>

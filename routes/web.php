@@ -15,7 +15,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function (){
     Route::get('/',function(){
-        return view('dashboard');
+        return redirect('/penilaian');
     });
     Route::put('/ubah-password', 'PasswordController@update');
 
