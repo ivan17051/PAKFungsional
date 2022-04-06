@@ -4,7 +4,7 @@
 
 :memo: last updated\: 14-03-2022
 
-:house: [to home](https://github.com/ivan17051/blud/blob/master/README.md)
+:house: [to home](https://github.com/ivan17051/PAKFungsional/blob/master/README.md)
 
 #### Contents
 
