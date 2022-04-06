@@ -137,3 +137,71 @@ const my={
         }
     },
 }
+
+var C = {};
+C.InputSelfEdit = class {
+    constructor(dom) {
+        this.dom = dom;
+        this.temporaryValue;
+        this.build();
+    }
+
+    build(){
+        const self = this;
+        this.dom.classList.add('input-group');
+        this.input = this.dom.getElementsByTagName('input')[0];
+        let btnEdit = document.createElement('div');
+        let btnBatal = document.createElement('div');
+        let btnOK = document.createElement('div');
+        btnEdit.innerHTML = '<button class="btn btn-secondary rounded-end" type="button" title="edit"> <i class="bi bi-pencil-fill"></i></button>';
+        btnBatal.innerHTML = '<button class="btn btn-outline-secondary " type="button" title="batal"><i class="bi bi-x"></i></button>';
+        btnOK.innerHTML = '<button class="btn btn-outline-success rounded-end" type="button" title="ok"><i class="bi bi-check"></i></button>';
+        this.btnEdit = btnEdit.firstChild;
+        this.btnBatal = btnBatal.firstChild;
+        this.btnOK = btnOK.firstChild;
+        this.btnEdit.addEventListener("click", function(){ self.edit(); });
+        this.btnBatal.addEventListener("click", function(){ self.cancel(); });
+        this.btnOK.addEventListener("click", function(){ 
+            self.reset();
+        });
+
+        this.dom.appendChild(this.btnEdit);
+        this.dom.appendChild(this.btnBatal);
+        this.dom.appendChild(this.btnOK);
+        this.dom.isf = this;
+    }
+
+    reset(){
+        this.temporaryValue = '';
+        this.btnEdit.removeAttribute('disabled')
+        this.btnEdit.removeAttribute('hidden');
+        this.btnBatal.setAttribute('disabled','disabled')
+        this.btnBatal.setAttribute('hidden','hidden');
+        this.btnOK.setAttribute('disabled','disabled')
+        this.btnOK.setAttribute('hidden','hidden');
+        this.input.setAttribute('readonly','readonly');
+    }
+
+    edit(){
+        this.temporaryValue = this.input.value;
+        this.btnEdit.setAttribute('disabled','disabled');
+        this.btnEdit.setAttribute('hidden','hidden');
+        this.btnBatal.removeAttribute('disabled');
+        this.btnBatal.removeAttribute('hidden');
+        this.btnOK.removeAttribute('disabled')
+        this.btnOK.removeAttribute('hidden');
+        this.input.removeAttribute('readonly');
+    }
+
+    cancel(){
+        this.input.value = this.temporaryValue;
+        this.btnEdit.removeAttribute('disabled');
+        this.btnBatal.setAttribute('disabled','disabled');
+        this.btnBatal.setAttribute('hidden','hidden');
+        this.btnOK.setAttribute('disabled','disabled')
+        this.btnOK.setAttribute('hidden','hidden');
+        this.btnEdit.setAttribute('readonly','readonly');
+        this.btnEdit.removeAttribute('hidden');
+        this.input.setAttribute('readonly','readonly');
+    }
+}
