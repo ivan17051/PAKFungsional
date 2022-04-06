@@ -17,6 +17,8 @@ class Penilaian extends Model
 
     protected $fillable = [
         "old",
+        "sejak",
+        "hingga",
         "awal",
         "akhir",
         "masakerja",

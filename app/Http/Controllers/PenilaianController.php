@@ -147,7 +147,7 @@ class PenilaianController extends Controller
         if($model == null){
             return back()->with('error','Gagal menghapus');
         }
-        else if($input['nomor'] <> $model->nomor){
+        else if(isset($input['nomor']) AND $input['nomor'] <> $model->nomor){
             $model->nomor = $input['nomor'];
             $model->save();
         }
@@ -165,6 +165,6 @@ class PenilaianController extends Controller
         else{
             $old=Penilaian::where('id', 0)->with(['pegawai', 'jabatan', 'golongan', 'pendidikan', 'unitKerja'])->first();
         }
-        return view('report.pak', ['data'=>$model, 'old'=>$old, 'nomor'=>str_replace(' ', '&nbsp', $input['nomor']), 'tipe'=>$input['tipe'], 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
+        return view('report.pak', ['data'=>$model, 'old'=>$old, 'nomor'=>str_replace(' ', '&nbsp', $model->nomor), 'tipe'=>$input['tipe'], 'masakerjaold'=>$masakerjaold, 'masakerja'=>$masakerja ]);
     }
 }

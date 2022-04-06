@@ -29,6 +29,34 @@ active
             <input type="hidden" name="idpegawai">
             <div class="modal-body">
                 <div class="form-body">
+                <div class="row">
+                        <div class="col-12">
+                            <h6>Masa Penilaian</h6>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first-name-vertical">Sejak</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="month" name="sejak" class="form-control" role="new" required>
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-calendar4-event"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first-name-vertical">Hingga</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="month" name="hingga" class="form-control" role="new" required>
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-calendar4-week"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-12">
                             <h6>Unit Kerja & Jabatan</h6>
@@ -402,6 +430,7 @@ active
     const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
     function tambah(){
         let today = moment().format("Y-MM-DD"); 
+        let newMonth = moment().format("Y-MM"); 
         $form.find('.modal-title').text('Tambah Penilaian');
         if(Total){
             curData=lastData;
@@ -442,6 +471,8 @@ active
         
         $form.find('[role=new]').attr('disabled',false).val('');
        
+        $form.find('[name=sejak]').val(newMonth).attr('disabled',false);
+        $form.find('[name=hingga]').val(newMonth).attr('disabled',false);
         $form.find('[name=akhir]').attr('readonly',false).val(today).change();
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=trigger-edit]').attr('hidden',true);
