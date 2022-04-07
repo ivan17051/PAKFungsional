@@ -20,6 +20,8 @@ class Pegawai extends Model
         "jeniskelamin",
         "alamat",
         "nohp",
+        "status",
+        "isactive",
     ];
 
     public function penilaian(){

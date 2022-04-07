@@ -100,6 +100,7 @@ class DataMasterController extends Controller
             'jeniskelamin' => 'required|string',
             'alamat' => 'string',
             'nohp' => 'string',
+            'status' => 'integer',
         ]);
         
         if ($validator->fails()) return back()->with('error','Gagal Menyimpan');

@@ -96,7 +96,27 @@ active
                         <label for="first-name-vertical">Alamat</label>
                         <input type="text" id="alamat" class="form-control" name="alamat" placeholder="Alamat">
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="first-name-vertical">Status</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="1" id="status1" checked>
+                                    <label class="form-check-label text-success" for="status1">
+                                        Aktif
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="0" id="status0" disabled>
+                                    <label class="form-check-label text-danger" for="status0">
+                                        Pensiun
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -198,7 +218,27 @@ active
                         <label for="first-name-vertical">Alamat</label>
                         <input type="text" id="alamat" class="form-control" name="alamat" placeholder="Alamat">
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="first-name-vertical">Status</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="1" id="status3">
+                                    <label class="form-check-label text-success" for="status3">
+                                        Aktif
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="0" id="status4">
+                                    <label class="form-check-label text-danger" for="status4">
+                                        Pensiun
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -300,6 +340,7 @@ active
         $modal.find('select[name=jeniskelamin]').val(data['jeniskelamin']).change();
         $modal.find('input[name=alamat]').val(data['alamat']);
         $modal.find('input[name=nohp]').val(data['nohp']);
+        $modal.find('input[name=status][value='+data['status']+']').prop("checked",true);
     }
 
     $(document).ready(function(){
@@ -323,6 +364,13 @@ active
                 { data:'tempatlahir', title:'TempatLahir', visible: false},
                 { data:'tanggallahir', title:'TanggalLahir', visible: false},
                 { data:'alamat', title:'Alamat', visible: false},
+                { data:'status', title:'Status', render: function(e,d,row){
+                    if(row['status']==1){
+                        return '<span class="text-success">Aktif</span>'
+                    }else{
+                        return '<span class="text-danger">Pensiun</span>'
+                    }
+                } },
                 { data:'action', title:'Aksi'},
             ],
         });
