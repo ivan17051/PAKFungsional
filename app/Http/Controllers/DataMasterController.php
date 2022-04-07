@@ -11,6 +11,7 @@ use App\Golongan;
 use App\Pegawai;
 use App\Jabatan;
 use App\Pendidikan;
+use App\Penilaian;
 
 class DataMasterController extends Controller
 {
@@ -56,7 +57,8 @@ class DataMasterController extends Controller
         
         $datatable->addColumn('action', function ($t) { 
                 return '<a class="btn btn-sm btn-outline-warning" onclick="edit(this)" data-bs-toggle="modal" data-bs-target="#sunting"><i class="bi bi-pencil-square"></i></a>&nbsp'.
-                '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-box-arrow-up-right"></i></a>&nbsp';
+                '<a class="btn btn-sm btn-outline-success" onclick="show(this)"><i class="bi bi-box-arrow-up-right"></i></a>&nbsp'.
+                '<a class="btn btn-sm btn-outline-danger" onclick="hapus(this)"><i class="bi bi-trash-fill"></i></a>&nbsp';
             });
         
         return $datatable->make(true); 
@@ -120,6 +122,19 @@ class DataMasterController extends Controller
         
         $model->save();
         return back()->with('success','Berhasil Menyimpan');
+    }
+    public function deletePegawai(Request $request){
+        try {
+            $model=Pegawai::find($request->input('id'));
+            $penilaian=Penilaian::select('id','idpegawai')->where('idpegawai', $request->input('id'))->first();
+            if(isset($penilaian)){
+                return back()->with('error','Pegawai Memiliki Histori Penilaian');
+            }
+            $model->delete();
+            return back()->with('success','Berhasil menghapus');
+        } catch (\Throwable $th) {
+            return back()->with('error','Gagal menghapus');
+        }
     }
     public function storeUpdateGolongan(Request $request){
         $userId = Auth::id();

@@ -21,7 +21,6 @@ class Pegawai extends Model
         "alamat",
         "nohp",
         "status",
-        "isactive",
     ];
 
     public function penilaian(){

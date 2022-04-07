@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/pegawai/data', 'DataMasterController@pegawaiData')->name('pegawai.data');
     Route::get('/pegawai/search', 'DataMasterController@searchPegawai')->name('search.pegawai');
     Route::put('/pegawai', 'DataMasterController@storeUpdatePegawai')->name('pegawai.update');
+    Route::delete('/pegawai', 'DataMasterController@deletePegawai')->name('pegawai.delete');
     
     Route::get('/golongan', 'DataMasterController@golongan');
     Route::put('/golongan', 'DataMasterController@storeUpdateGolongan')->name('golongan.update');

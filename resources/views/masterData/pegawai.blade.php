@@ -256,6 +256,13 @@ active
     </div>
 </div>
 
+<!-- Form -->
+<form hidden action="{{route('pegawai.delete')}}" method="POST" id="delete">
+    @csrf
+    @method('delete')
+    <input type="hidden" name="id">
+</form>
+
 <div class="page-heading">
   <div class="page-title">
       <div class="row">
@@ -341,6 +348,30 @@ active
         $modal.find('input[name=alamat]').val(data['alamat']);
         $modal.find('input[name=nohp]').val(data['nohp']);
         $modal.find('input[name=status][value='+data['status']+']').prop("checked",true);
+    }
+
+    function hapus(self){
+        var tr = $(self).closest('tr');
+        let idx = oTable.row(tr)[0]
+        var data = oTable.data()[idx];
+        $('#delete').find('input[name=id]').val(data['id']);
+        Swal.fire({
+            customClass: {
+                confirmButton: 'btn btn-light me-2',
+                cancelButton: 'btn btn-primary'
+            },
+            buttonsStyling: false,
+            icon: 'warning',
+            iconColor: '#f4b619',
+            title: 'Yakin ingin menghapus?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#delete').submit();
+            }
+        })
     }
 
     $(document).ready(function(){
