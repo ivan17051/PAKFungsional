@@ -27,283 +27,332 @@ active
             @method('PUT')
             <input type="hidden" name="id">
             <input type="hidden" name="idpegawai">
-            <div class="modal-body">
+            <div class="modal-body accordion accordion-flush" id="nilai">
                 <div class="form-body">
-                <div class="row">
-                        <div class="col-12">
-                            <h6>Masa Penilaian</h6>
+                    <div class="row" >
+                        <div class="col-12 btn text-start" data-bs-toggle="collapse" data-bs-target="#nilai-mp" aria-expanded="false" aria-controls="nilai-mp">
+                            <h6 class="m-0"><div class="num me-2">1</div>Masa Penilaian</h6>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Sejak</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="month" name="sejak" class="form-control" role="new" required>
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-calendar4-event"></i>
+                        <div class="col-12 accordion-collapse collapse" id="nilai-mp" data-bs-parent="#nilai">
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6" >
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Sejak</label>
+                                        <div class="form-group position-relative has-icon-left">
+                                            <input type="month" name="sejak" class="form-control" role="new" required>
+                                            <div class="form-control-icon">
+                                                <i class="bi bi-calendar4-event"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Hingga</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="month" name="hingga" class="form-control" role="new" required>
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-calendar4-week"></i>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Hingga</label>
+                                        <div class="form-group position-relative has-icon-left">
+                                            <input type="month" name="hingga" class="form-control" role="new" required>
+                                            <div class="form-control-icon">
+                                                <i class="bi bi-calendar4-week"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <br>
+                    <hr>
                     <div class="row">
-                        <div class="col-12">
-                            <h6>Unit Kerja & Jabatan</h6>
+                        <div class="col-12 btn text-start" data-bs-toggle="collapse" data-bs-target="#nilai-uk" aria-expanded="false" aria-controls="nilai-uk">
+                            <h6 class="m-0"><div class="num me-2">2</div>Unit Kerja & Jabatan</h6>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Unit Kerja</label>
-                                <select class="choices form-select" id="idunitkerja" name="idunitkerja" required>
-                                    <!-- <option value="">--PILIH--</option> -->
-                                    @foreach($unitKerja as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Pendidikan</label>
-                                <select class="choices form-select" id="idpendidikan" name="idpendidikan" required>
-                                    <!-- <option value="">--PILIH--</option> -->
-                                    @foreach($pendidikan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Golongan</label>
-                                <select class="choices form-select" id="idgolongan" name="idgolongan" required>
-                                    <!-- <option value="">--PILIH--</option> -->
-                                    @foreach($golongan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->golongan}} - {{$unit->nama}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Jabatan</label>
-                                <select class="choices form-select" id="idjabatan" name="idjabatan" required>
-                                    <!-- <option value="">--PILIH--</option> -->
-                                    @foreach($jabatan as $unit)
-                                    <option value="{{$unit->id}}">{{$unit->nama}} - {{$unit->detail}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6>Masa Kerja</h6>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Dari</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="date" name="awal" class="form-control" onchange="refreshMasaKerja()" required>
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-calendar4-event"></i>
+                        <div class="col-12 accordion-collapse collapse" id="nilai-uk" data-bs-parent="#nilai">
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="border table table-borderless" style="width:auto;">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2">Info saat ini</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-top">Unit Kerja</td>
+                                                <td>: Puskesmas Tanjungsari</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-top">Pendidikan</td>
+                                                <td>: Sekolah Perawat Kesehatan</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-top">Golongan</td>
+                                                <td>: I/a - juru muda</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-top">Jabatan</td>
+                                                <td>: Verifikator - Verifikator Keuangan</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Unit Kerja</label>
+                                        <select class="choices form-select" id="idunitkerja" name="idunitkerja" required>
+                                            <!-- <option value="">--PILIH--</option> -->
+                                            @foreach($unitKerja as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->nama}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first-name-vertical">Hingga</label>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="date" name="akhir" class="form-control" onchange="refreshMasaKerja()" required>
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-calendar4-week"></i>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Pendidikan</label>
+                                        <select class="choices form-select" id="idpendidikan" name="idpendidikan" required>
+                                            <!-- <option value="">--PILIH--</option> -->
+                                            @foreach($pendidikan as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->nama}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun_old" disabled>
-                                <span class="input-group-text">Tahun</span>
-                                <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan_old" disabled>
-                                <span class="input-group-text">Bulan</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun" onchange="refreshMasaKerja()" min="0" required>
-                                <span class="input-group-text">Tahun</span>
-                                <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan" onchange="refreshMasaKerja()" min="0" max="11" required>
-                                <span class="input-group-text">Bulan</span>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Golongan</label>
+                                        <select class="choices form-select" id="idgolongan" name="idgolongan" required>
+                                            <!-- <option value="">--PILIH--</option> -->
+                                            @foreach($golongan as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->golongan}} - {{$unit->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Jabatan</label>
+                                        <select class="choices form-select" id="idjabatan" name="idjabatan" required>
+                                            <!-- <option value="">--PILIH--</option> -->
+                                            @foreach($jabatan as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->nama}} - {{$unit->detail}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <br>
+                    <hr>
                     <div class="row">
-                        <div class="col-12">
-                            <h6>Penilaian</h6>
+                        <div class="col-12 btn text-start" data-bs-toggle="collapse" data-bs-target="#nilai-mk" aria-expanded="false" aria-controls="nilai-mk">
+                            <h6 class="m-0"><div class="num me-2">3</div>Masa Kerja</h6>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12 accordion-collapse collapse" id="nilai-mk" data-bs-parent="#nilai">
+                            <br>
                             <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">Unsur Utama</p>
-                                </div>
-                                <div class="col-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="utama" placeholder="000" required role="excluded">
+                                        <label for="first-name-vertical">Dari</label>
+                                        <div class="form-group position-relative has-icon-left">
+                                            <input type="date" name="awal" class="form-control"  required>
+                                            <div class="form-control-icon">
+                                                <i class="bi bi-calendar4-event"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="utama_new" placeholder="000" required role="new">
+                                        <label for="first-name-vertical">Hingga</label>
+                                        <div class="form-group position-relative has-icon-left">
+                                            <input type="date" name="akhir" class="form-control"  required>
+                                            <div class="form-control-icon">
+                                                <i class="bi bi-calendar4-week"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Masa kerja sebelumnya</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun_old" disabled>
+                                            <span class="input-group-text">Tahun</span>
+                                            <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan_old" disabled>
+                                            <span class="input-group-text">Bulan</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Masa kerja baru</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" aria-label="tahun" name="masakerjatahun"  min="0" required>
+                                            <span class="input-group-text">Tahun</span>
+                                            <input type="number" class="form-control" aria-label="bulan" name="masakerjabulan"  min="0" max="11" required>
+                                            <span class="input-group-text">Bulan</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">Pend. Formal</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="pendformal" placeholder="000" required role="excluded">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="pendformal_new" placeholder="000" required role="new">
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12 btn text-start" data-bs-toggle="collapse" data-bs-target="#nilai-p" aria-expanded="false" aria-controls="nilai-p">
+                                <h6 class="m-0"><div class="num me-2">4</div>Penilaian</h6>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12 accordion-collapse collapse" id="nilai-p" data-bs-parent="#nilai">
                             <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">Diklat Fungs/Teknis</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="diklat" placeholder="000" required role="excluded">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">Unsur Utama</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="utama" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="utama_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="diklat_new" placeholder="000" required role="new">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">Pend. Formal</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="pendformal" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="pendformal_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">STTPL</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="sttpl" placeholder="000" required role="excluded">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">Diklat Fungs/Teknis</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="diklat" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="diklat_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="sttpl_new" placeholder="000" required role="new">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">STTPL</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="sttpl" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="sttpl_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">YANKES</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="yankes" placeholder="000" required role="excluded">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">YANKES</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="yankes" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="yankes_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="yankes_new" placeholder="000" required role="new">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">PROFESI</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="profesi" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="profesi_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">PROFESI</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="profesi" placeholder="000" required role="excluded">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">PENGAB. MASY.</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="pengmas" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="pengmas_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="profesi_new" placeholder="000" required role="new">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">PENGAB. MASY.</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="pengmas" placeholder="000" required role="excluded">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="pengmas_new" placeholder="000" required role="new">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 d-table">
-                                    <p class="d-table-cell align-middle">PENUNJANG YANKES</p>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Lama</label>
-                                        <input type="number" class="form-control" name="penyankes" placeholder="000" required role="excluded">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="first-name-vertical">Baru</label>
-                                        <input type="number" class="form-control" name="penyankes_new" placeholder="000" required role="new">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-6 d-table">
+                                            <p class="d-table-cell align-middle">PENUNJANG YANKES</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Lama</label>
+                                                <input type="number" class="form-control" name="penyankes" placeholder="000" required role="excluded">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="first-name-vertical">Baru</label>
+                                                <input type="number" class="form-control" name="penyankes_new" placeholder="000" required role="new">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -449,19 +498,24 @@ active
             $('[name=penyankes]').val(lastData['penyankes_new']);
             $('[name=awal]').val(newDate);
 
-            $('[name=masakerjatahun]').attr('readonly',true);
-            $('[name=masakerjabulan]').attr('readonly',true);
+            let masakerja = lastData['masakerja'];
+            $('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor(masakerja/12) );
+            $('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
+            $('[name=masakerjatahun]').attr('readonly',false).val( Math.floor(masakerja/12) );
+            $('[name=masakerjabulan]').attr('readonly',false).val( masakerja%12 );
 
             choicesList['idunitkerja'].setChoiceByValue(lastData['idunitkerja']);
             choicesList['idgolongan'].setChoiceByValue(lastData['idgolongan']);
             choicesList['idjabatan'].setChoiceByValue(lastData['idjabatan']);
             choicesList['idpendidikan'].setChoiceByValue(lastData['idpendidikan']);
-            $form.find('[name=awal]').attr('readonly',true);
+            $form.find('[name=awal]').attr('readonly',false);
         }else{
             curData=null;
             $form.find('[role=excluded]').val('').attr('disabled',false)
             $form.find('[name=awal]').attr('readonly',false).val(today);
 
+            $('[name=masakerjatahun_old]').attr('readonly',false).val(0);
+            $('[name=masakerjabulan_old]').attr('readonly',false).val(0);
             $('[name=masakerjatahun]').attr('readonly',false).val(0);
             $('[name=masakerjabulan]').attr('readonly',false).val(0);
         }
@@ -521,52 +575,6 @@ active
         choicesList['idgolongan'].enable();
         choicesList['idjabatan'].enable();
         choicesList['idpendidikan'].enable();
-    }
-
-    function refreshMasaKerja(){
-        let masakerja=0, newmasakerja;
-        if(curData){
-            let oldawal = moment(curData['awal']);
-            oldawal.date(1);
-            let oldakhir = moment(curData['akhir']);
-            oldakhir.date(1);
-
-            if(istambah){
-                masakerja = curData['masakerja'];        // integer bulan
-                let akhir = moment($form.find('[name=akhir]').val()).date(1);
-                newmasakerja = parseInt(masakerja) + akhir.diff(oldakhir, 'months');
-            }else{
-                let diff = oldakhir.diff(oldawal, 'months');
-                masakerja = curData['masakerja'];        // integer bulan
-                masakerja = masakerja - diff;
-
-                let akhir = moment($form.find('[name=akhir]').val()).date(1);
-                newmasakerja = masakerja + akhir.diff(oldawal, 'months');
-            }
-
-            $form.find('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor( masakerja/12 ) );
-            $form.find('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
-            $form.find('[name=masakerjatahun]').attr('readonly',true).val( Math.floor( newmasakerja/12 ) );
-            $form.find('[name=masakerjabulan]').attr('readonly',true).val( newmasakerja%12 );
-        }else{
-            let awal = moment($form.find('[name=awal]').val()).date(1);
-            let akhir = moment($form.find('[name=akhir]').val()).date(1);
-            let diff = akhir.diff(awal, 'months');
-
-            let diffcurrent = ($form.find('[name=masakerjatahun]').val()|0) * 12 + ($form.find('[name=masakerjabulan]').val()|0);
-
-            if(diff > diffcurrent){
-                masakerja=0;
-                newmasakerja=diff;
-            }else{
-                masakerja=diffcurrent-diff;
-                newmasakerja=diffcurrent;
-            }
-            $form.find('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor( masakerja/12 ) );
-            $form.find('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
-            $form.find('[name=masakerjatahun]').attr('readonly',false).val( Math.floor( newmasakerja/12 ) );
-            $form.find('[name=masakerjabulan]').attr('readonly',false).val( newmasakerja%12 );
-        }
     }
 
     // Datatable

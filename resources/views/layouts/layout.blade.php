@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('public/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/vendors/jquery-typeahead-2.11.0/jquery.typeahead.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/nilai.css')}}">
 
     <!-- Include Choices CSS -->
     <link rel="stylesheet" href="{{asset('public/vendors/choices.js/choices.min.css')}}" />
