@@ -116,7 +116,7 @@ active
                             <div class="form-group">
                                 <label for="first-name-vertical">Dari</label>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="date" name="awal" class="form-control" required>
+                                    <input type="date" name="awal" class="form-control" onchange="refreshMasaKerja()" required>
                                     <div class="form-control-icon">
                                         <i class="bi bi-calendar4-event"></i>
                                     </div>
@@ -427,14 +427,16 @@ active
     var Total;
     var lastData;
     var curData;
+    var istambah=false;
     const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
     function tambah(){
+        istambah=true;
         let today = moment().format("Y-MM-DD"); 
         let newMonth = moment().format("Y-MM"); 
         $form.find('.modal-title').text('Tambah Penilaian');
         if(Total){
             curData=lastData;
-            let newDate = moment(lastData['awal']).add(1, 'days').format("Y-MM-DD"); 
+            let newDate = moment(lastData['akhir']).add(1, 'days').format("Y-MM-DD"); 
             $form.find('[role=excluded]').attr('disabled',true)
             $('[name=id]').val('');
             $('[name=utama]').val(lastData['utama_new']);
@@ -481,6 +483,7 @@ active
     }
 
     function show(self){
+        istambah=false;
         var tr = $(self).closest('tr');
         let idx = oTable.row(tr)[0]
         var data = oTable.data()[idx];
@@ -527,12 +530,19 @@ active
             oldawal.date(1);
             let oldakhir = moment(curData['akhir']);
             oldakhir.date(1);
-            let diff = oldakhir.diff(oldawal, 'months');
-            masakerja = curData['masakerja'];        // integer bulan
-            masakerja = masakerja - diff;
 
-            let akhir = moment($form.find('[name=akhir]').val()).date(1);
-            newmasakerja = masakerja + akhir.diff(oldawal, 'months');
+            if(istambah){
+                masakerja = curData['masakerja'];        // integer bulan
+                let akhir = moment($form.find('[name=akhir]').val()).date(1);
+                newmasakerja = parseInt(masakerja) + akhir.diff(oldakhir, 'months');
+            }else{
+                let diff = oldakhir.diff(oldawal, 'months');
+                masakerja = curData['masakerja'];        // integer bulan
+                masakerja = masakerja - diff;
+
+                let akhir = moment($form.find('[name=akhir]').val()).date(1);
+                newmasakerja = masakerja + akhir.diff(oldawal, 'months');
+            }
 
             $form.find('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor( masakerja/12 ) );
             $form.find('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );

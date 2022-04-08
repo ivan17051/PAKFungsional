@@ -59,71 +59,111 @@ class PenilaianController extends Controller
         if ($validator->fails()) return back()->with('error','Gagal menyimpan');
         
         $input = $validator->valid();
-            
-        if(isset($input['id']) AND $input['id']<>""){
-            $model = Penilaian::where('isactive',1)->where('id', $input['id'])->first();
-            $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
-                    + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
-                    + $input["pengmas_new"] + $input["penyankes_new"];
-            $model->fill($input);
-            $model->fill([
-                "idm" => $user->id,
-                "pak" => $pak,
-            ]);
-
-            //update inputan jika id terikat pada field "old" record lainnya
-            $modelTerikat = Penilaian::where('isactive',1)->where('old', $input['id'])->first();
-            if($modelTerikat){
-                $modelTerikat->fill([
-                    "utama" => $input["utama_new"],
-                    "pendformal" => $input["pendformal_new"],
-                    "diklat" => $input["diklat_new"],
-                    "sttpl" => $input["sttpl_new"],
-                    "yankes" => $input["yankes_new"],
-                    "profesi" => $input["profesi_new"],
-                    "pengmas" => $input["pengmas_new"],
-                    "penyankes" => $input["penyankes_new"],
-                    "old" => $input["id"],
-                ]);
-            }
-        }else{
-            $model = new Penilaian();
-            $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
-                    + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
-                    + $input["pengmas_new"] + $input["penyankes_new"];
-            $model->fill($input);
-            $model->fill([
-                "idc" => $user->id,
-                "idm" => $user->id,
-                "pak" => $pak,
-                "masakerja" => $input['masakerjatahun']*12 + $input['masakerjabulan'],
-                // "masakerja" => strtotime("{$input['masakerjatahun']} year {$input['masakerjabulan']} month",  strtotime("2000-01-01")),
-            ]);
-
-            // create new dengan referensi record
-            $old = Penilaian::where('isactive',1)->where('idpegawai', $input['idpegawai'])->orderBy('id', 'DESC')->first();
-            if($old){
-                $model->fill([
-                    "utama" => $old["utama_new"],
-                    "pendformal" => $old["pendformal_new"],
-                    "diklat" => $old["diklat_new"],
-                    "sttpl" => $old["sttpl_new"],
-                    "yankes" => $old["yankes_new"],
-                    "profesi" => $old["profesi_new"],
-                    "pengmas" => $old["pengmas_new"],
-                    "penyankes" => $old["penyankes_new"],
-                    "old" => $old->id,
-                ]);
-            }
-        }
 
         try {
             DB::beginTransaction();
+
+            if(isset($input['id']) AND $input['id']<>""){
+                $model = Penilaian::where('isactive',1)->where('id', $input['id'])->first();
+                $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
+                        + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
+                        + $input["pengmas_new"] + $input["penyankes_new"];
+
+                //update inputan jika id terikat pada field "old" record lainnya
+                $modelTerikat = Penilaian::where('isactive',1)->where('old', $input['id'])->first();
+                if($modelTerikat){
+                    $modelTerikat->fill([
+                        "utama" => $input["utama_new"],
+                        "pendformal" => $input["pendformal_new"],
+                        "diklat" => $input["diklat_new"],
+                        "sttpl" => $input["sttpl_new"],
+                        "yankes" => $input["yankes_new"],
+                        "profesi" => $input["profesi_new"],
+                        "pengmas" => $input["pengmas_new"],
+                        "penyankes" => $input["penyankes_new"],
+                        "old" => $input["id"],
+                    ]);
+                }
+
+                //update masa pada penilaian yang mana tanggal pengisiannya di atas tanggal penilaian yg diedit
+                if($input['akhir'] AND $model->akhir->translatedFormat('Y-m-d') <> $input['akhir'] ){
+                    //cek apakah melebihi tanggal "akhir" dari model terikat
+                    if(isset($modelTerikat) AND Carbon::parse($input['akhir'])->gt($modelTerikat->akhir)){
+                        throw new \Exception("Melebihi tanggal akhir penilaian di atasnya");
+                    }else if(isset($modelTerikat)){
+                        $modelTerikat->awal = $input['akhir'];
+                    }
+
+                    $masakerja_new = $input['masakerjatahun']*12 + $input['masakerjabulan'];
+
+                    // [KHUSUS KETIKA NGEDIT PENILAIAN PALING OLD]
+                    if( isset($model->old) == FALSE AND 
+                        ( $input['awal'] <> $model->awal->translatedFormat('Y-m-d') OR $masakerja_new <> $model->masakerja)){
+                        //loop ke penilaian terbaru baru untuk diapdet masa kerjanya
+                        $idexcept = [$model->id];
+
+                        $diffMonth = -1 * $model->awal->diffInMonths(Carbon::parse($input['awal']));
+
+                        $diffMasakerja = $masakerja_new - $model->masakerja;
+
+                        dd($diffMonth);
+
+                        $selisih = $diffMasakerja + $diffMonth;
+
+                        if(isset($modelTerikat)){
+                            array_push($idexcept, $modelTerikat->id);
+                            $modelTerikat->masakerja = $modelTerikat->masakerja + $selisih;
+                        }
+                        Penilaian::where('idpegawai',$model->idpegawai)->whereNotIn('id',$idexcept)
+                            ->update(['masakerja'=> DB::raw('masakerja + '.$selisih)]);
+                    }
+                    
+                    $model->masakerja = $masakerja_new;
+                }
+                $model->fill($input);
+                $model->fill([
+                    "idm" => $user->id,
+                    "pak" => $pak,
+                ]);
+            }else{
+                $model = new Penilaian();
+                $pak= $input["utama_new"] + $input["pendformal_new"] + $input["diklat_new"] 
+                        + $input["sttpl_new"] + $input["yankes_new"] + $input["profesi_new"] 
+                        + $input["pengmas_new"] + $input["penyankes_new"];
+                $model->fill($input);
+                $model->fill([
+                    "idc" => $user->id,
+                    "idm" => $user->id,
+                    "pak" => $pak,
+                    "masakerja" => $input['masakerjatahun']*12 + $input['masakerjabulan'],
+                    // "masakerja" => strtotime("{$input['masakerjatahun']} year {$input['masakerjabulan']} month",  strtotime("2000-01-01")),
+                ]);
+
+                // create new dengan referensi record
+                $old = Penilaian::where('isactive',1)->where('idpegawai', $input['idpegawai'])->orderBy('id', 'DESC')->first();
+                if($old){
+                    $model->fill([
+                        "utama" => $old["utama_new"],
+                        "pendformal" => $old["pendformal_new"],
+                        "diklat" => $old["diklat_new"],
+                        "sttpl" => $old["sttpl_new"],
+                        "yankes" => $old["yankes_new"],
+                        "profesi" => $old["profesi_new"],
+                        "pengmas" => $old["pengmas_new"],
+                        "penyankes" => $old["penyankes_new"],
+                        "old" => $old->id,
+                    ]);
+                }
+            }
+
             $model->save();
             if(isset($modelTerikat)) $modelTerikat->save();
             DB::commit();
             return back()->with('success','Berhasil Menyimpan.');
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error',$e->getMessage());
+        }catch (\Throwable $e) {
             DB::rollBack();
             return back()->with('error','Gagal memproses.');
         }

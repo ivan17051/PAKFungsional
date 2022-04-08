@@ -41,4 +41,9 @@ Route::middleware(['auth'])->group(function (){
     Route::put('/penilaian', 'PenilaianController@storeUpdate')->name('penilaian.update');
     Route::delete('/penilaian', 'PenilaianController@delete')->name('penilaian.delete');
     Route::get('/penilaian/cetak/{idpenilaian}', 'PenilaianController@cetak')->name('penilaian.cetak'); 
+
+    Route::get('/tes',function(){
+        $a = new Carbon\Carbon();
+        return $a->translatedFormat('Y-m-d');
+    });
 });
