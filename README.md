@@ -5,11 +5,11 @@
 
 - Title: PAK!!
 - Controllers
-  - [PenilaianController.php](https://github.com/ivan17051/blud/blob/master/docs/penilaiancontroller.md)
-  - [DataMasterController.php](https://github.com/ivan17051/blud/blob/master/docs/datamastercontroller.md)
+  - [PenilaianController.php](https://github.com/ivan17051/PAKFungsional/blob/master/docs/penilaiancontroller.md)
+  - [DataMasterController.php](https://github.com/ivan17051/PAKFungsional/blob/master/docs/datamastercontroller.md)
   - PasswordController.php
 - Views
-  - [penilaian.blade.php](https://github.com/ivan17051/blud/blob/master/docs/penilaianview.md)
+  - [penilaian.blade.php](https://github.com/ivan17051/PAKFungsional/blob/master/docs/penilaianview.md)
   - Layouts:
     - alert.blade.php
     - layout.blade.php

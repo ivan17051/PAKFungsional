@@ -1,243 +1,110 @@
-## Transaksi View
+## Penilaian View
 
-:date: posted\: 10-02-2022
+:date: posted\: 06-04-2022
 
-:memo: last updated\: 14-03-2022
+:memo: last updated\: 11-04-2022
 
 :house: [to home](https://github.com/ivan17051/PAKFungsional/blob/master/README.md)
 
 #### Contents
 
-- [showCeklist](#showceklist)
-- [filterFormulirOnChange](#filterformulironchange)
-- [hapus](#hapus)
+- [showInfoLama](#showinfolama)
+- [setMasaKerja](#setmasakerja)
+- [tambah](#tambah)
 - [show](#show)
-- [tolak](#tolak)
-- [acc](#acc)
-- [buatSpm](#buatspm)
-- [batal](#batal)
-- [cetak](#cetak)
 - [edit](#edit)
-- [ubahRek](#ubahrek)
-- [ubahPajak](#ubahpajak)
-- [ubahPotongan](#ubahpotongan)
-- [format](#format)
-- [infoSaldo](#infosaldo)
-- [openPilihSPP](#openpilihspp)
-- [pilih_espj_ls](#pilih_espj_ls)
-- [pilih_multi_espj](#pilih_multi_espj)
-- [submit_espj_ls](#submit_espj_ls)
-- [select_espj_terpilih](#select_espj_terpilih)
-- [edit_pilihan_espj_ls](#edit_pilihan_espj_ls)
+- [showTable](#showtable)
+- [callback](#callback)
+- [showCetak](#showcetak)
 
-## showCeklist
-Menampilkan modal yang berisi Ceklist sesuai dengan pilihan UPLS(UP, LS, TU)
+## showInfoLama
+Menampilkan dan menge-_set_ data unit kerja, pendidikan, jabatan, dan golongan pegawai dengan data saat ini.
 
 #### Parameters
-e: Self
+data: 
 
 #### Return Value
-Modal Ceklist<br>
-with:<br>
-&emsp;&emsp;Ceklist: HTML<br>
+Show Modal Tambah<br>
 
 :cyclone: [to top](#contents)
 
-## filterFormulirOnChange
-Menampilkan pilihan yang dinamis sesuai dengan pilihan sebelumnya
+## setMasaKerja
+Menge-_set_ data Masa Kerja dengan data saat ini.
 
 #### Parameters
-e: Self
+mk: <br>
+mkold: <br>
+readOnlyOld: <br>
+readonly: <br>
 
 #### Return Value
-Select<br>
-with:<br>
-&emsp;&emsp;Bendahara: [Pejabat](https://github.com/ivan17051/blud/blob/master/app/Pejabat.php)<br>
-&emsp;&emsp;Rekanan: [Rekanan](https://github.com/ivan17051/blud/blob/master/app/Rekanan.php)<br>
+Show Modal Tambah<br>
 
 :cyclone: [to top](#contents)
 
-## hapus
-Menampilkan modal untuk konfirmasi hapus data transaksi dan menghapus data transaksi
+## tambah
+Menampilkan modal untuk menambahkan data penilaian.
 
 #### Parameters
-e: Self
 
 #### Return Value
-Swal: Modal<br>
-with:<br>
-&emsp;&emsp;Form Delete: Submit<br>
+Show Modal Tambah<br>
 
 :cyclone: [to top](#contents)
 
 ## show
-Menampilkan data rekening, informasi, dan potongan pada baris data yang dipilih
+Menampilkan data penilaian dari baris yang dipilih.
 
 #### Parameters
-e: Self
+self: Self
 
 #### Return Value
-Show Child<br>
-
-:cyclone: [to top](#contents)
-
-## tolak
-Menolak pengajuan SP2D dengan mengubah status transaksi menjadi = 4
-
-#### Parameters
-e: Self
-
-#### Return Value
-Swal: Modal<br>
-with:<br>
-&emsp;&emsp;Form Delete: Submit<br>
-
-:cyclone: [to top](#contents)
-
-## acc
-Meng-_acc_ pengajuan SP2D dengan mengubah status transaksi menjadi = 3
-
-#### Parameters
-e: Self
-
-#### Return Value
-Swal: Modal<br>
-with:<br>
-&emsp;&emsp;Form Acc: Submit<br>
-
-:cyclone: [to top](#contents)
-
-## buatSpm
-Menampilkan modal untuk konfirmasi pembuatan SPM dengan mengubah status transaksi menjadi = 1 dan meminta inputan jenis pembukuan dan sumber dana dari _user_.
-
-#### Parameters
-e: Self
-
-#### Return Value
-Swal: Modal<br>
-with:<br>
-&emsp;&emsp;Form Acc: Submit<br>
-
-:cyclone: [to top](#contents)
-
-## batal
-Membatalkan permintaan user untuk melakukan _forward_ data transaksi ke SP2D.
-
-#### Parameters
-e: Self
-
-#### Return Value
-Swal: Modal<br>
-with:<br>
-&emsp;&emsp;Form Batal: Submit<br>
-
-:cyclone: [to top](#contents)
-
-## cetak
-Mencetak laporan sesuai dengan permintaan _user_.
-
-#### Parameters
-type, id, tipepembukuan=null, nocek, tipe, listCek
-
-#### Return Value
-Action: Attribute<br>
-Swal: Modal<br>
+Show Modal Edit<br>
 
 :cyclone: [to top](#contents)
 
 ## edit
-Memasukkan 1 baris data yang telah dipilih oleh _user_ pada modal _edit_.
+Menampilkan tombol edit dan meng-_enable_ form user untuk mengubah data yang sudah ditampilkan.
 
 #### Parameters
-e: Self
+self: Self
 
 #### Return Value
 Value: Attribute<br>
 
 :cyclone: [to top](#contents)
 
-## ubahRek
-Menampilkan modal untuk melakukan perubahan pada data rekening(menambah atau menghapus) dari satu transaksi.
+## showTable
+Menampilkan tabel yang berisi data penilaian dari pegawai yang dipilih.
 
 #### Parameters
-idtransaksi
+id: 
 
 #### Return Value
-Value: HTML<br>
+Swal: Modal<br>
+with:<br>
+&emsp;&emsp;Form Acc: Submit<br>
 
 :cyclone: [to top](#contents)
 
-## ubahPajak
-Menampilkan modal untuk melakukan perubahan pada data pajak(menambah atau menghapus) dari satu transaksi.
+## callback
+Menge-_set_ _session_ dan tampilan _input_ _field_ dengan data pegawai dipilih.
 
 #### Parameters
-idtransaksi
+item: Collection
 
 #### Return Value
-Value: HTML<br>
+Show Modal Penilaian <br>
 
 :cyclone: [to top](#contents)
 
-## ubahPotongan
-Menampilkan modal untuk melakukan perubahan pada data potongan(menambah atau menghapus) dari satu transaksi.
+## showCetak
+Mencetak laporan sesuai dengan permintaan _user_.
 
 #### Parameters
-idtransaksi
+self, idpenilaian
 
 #### Return Value
-Value: HTML<br>
-
-:cyclone: [to top](#contents)
-
-## format
-Membuat tampilan tabel rekening, informasi, dan potongan pada setiap baris data transaksi.
-
-#### Parameters
-data
-
-#### Return Value
-Value: HTML<br>
-
-:cyclone: [to top](#contents)
-
-## infoSaldo
-Menampilkan sisa saldo dari rekening yang dipilih.
-
-#### Parameters
-self, target
-
-#### Return Value
-Value: Attribute<br>
-
-:cyclone: [to top](#contents)
-
-## openPilihSPP
-Membuat tampilan tabel rekening, informasi, dan potongan pada setiap baris data transaksi.
-
-#### Parameters
-data
-
-#### Return Value
-Value: HTML<br>
-
-:cyclone: [to top](#contents)
-
-## pilih_espj_ls
-
-:cyclone: [to top](#contents)
-
-## pilih_multi_espj
-
-:cyclone: [to top](#contents)
-
-## submit_espj_ls
-
-:cyclone: [to top](#contents)
-
-## select_espj_terpilih
-
-:cyclone: [to top](#contents)
-
-## edit_pilihan_espj_ls
+Show Modal Cetak<br>
 
 :cyclone: [to top](#contents)
