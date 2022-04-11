@@ -32,6 +32,12 @@ active
                     <div class="row" >
                         <div class="col-12 btn text-start" data-bs-toggle="collapse" data-bs-target="#nilai-mp" aria-expanded="false" aria-controls="nilai-mp">
                             <h6 class="m-0"><div class="num me-2">1</div>Masa Penilaian</h6>
+                            <!-- <div class="form-check float-end">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                    <label for="checkbox1">digunakan*</label>
+                                </div>
+                            </div> -->
                         </div>
                         <div class="col-12 accordion-collapse collapse" id="nilai-mp" data-bs-parent="#nilai">
                             <br>
@@ -69,27 +75,27 @@ active
                         <div class="col-12 accordion-collapse collapse" id="nilai-uk" data-bs-parent="#nilai">
                             <br>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="keterangan-uk">
                                     <table class="border table table-borderless" style="width:auto;">
                                         <tbody>
                                             <tr>
-                                                <td colspan="2">Info saat ini</td>
+                                                <td colspan="2">Info Sebelumnya</td>
                                             </tr>
                                             <tr>
                                                 <td class="align-top">Unit Kerja</td>
-                                                <td>: Puskesmas Tanjungsari</td>
+                                                <td data-isi="unitkerja" >: Puskesmas Tanjungsari</td>
                                             </tr>
                                             <tr>
                                                 <td class="align-top">Pendidikan</td>
-                                                <td>: Sekolah Perawat Kesehatan</td>
+                                                <td data-isi="pendidikan">: Sekolah Perawat Kesehatan</td>
                                             </tr>
                                             <tr>
                                                 <td class="align-top">Golongan</td>
-                                                <td>: I/a - juru muda</td>
+                                                <td data-isi="golongan">: I/a - juru muda</td>
                                             </tr>
                                             <tr>
                                                 <td class="align-top">Jabatan</td>
-                                                <td>: Verifikator - Verifikator Keuangan</td>
+                                                <td data-isi="jabatan">: Verifikator - Verifikator Keuangan</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -478,6 +484,32 @@ active
     var curData;
     var istambah=false;
     const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+    function showInfoLama(data){
+        choicesList['idunitkerja'].setChoiceByValue(data['idunitkerja']);
+        choicesList['idgolongan'].setChoiceByValue(data['idgolongan']);
+        choicesList['idjabatan'].setChoiceByValue(data['idjabatan']);
+        choicesList['idpendidikan'].setChoiceByValue(data['idpendidikan']);
+        let unitkerja_old = $('#idunitkerja').find('option[value='+data['idunitkerja']+']').text();
+        let golongan_old = $('#idgolongan').find('option[value='+data['idgolongan']+']').text();
+        let jabatan_old = $('#idjabatan').find('option[value='+data['idjabatan']+']').text();
+        let pendidikan_old = $('#idpendidikan').find('option[value='+data['idpendidikan']+']').text();
+        let ku = $('#keterangan-uk');
+        ku.attr('hidden', false);
+        ku.find('[data-isi=unitkerja]').text(': '+unitkerja_old);
+        ku.find('[data-isi=golongan]').text(': '+golongan_old);
+        ku.find('[data-isi=jabatan]').text(': '+jabatan_old);
+        ku.find('[data-isi=pendidikan]').text(': '+pendidikan_old);
+    }
+
+    function setMasaKerja(mkold, mk, readonlyOld=false, readonly=false){
+        $('[name=masakerjatahun_old]').attr('readonly',readonlyOld).val( Math.floor(mkold/12) );
+        $('[name=masakerjabulan_old]').attr('readonly',readonlyOld).val( mkold%12 );
+        $('[name=masakerjatahun]').attr('readonly',readonly).val( Math.floor(mk/12) );
+        $('[name=masakerjabulan]').attr('readonly',readonly).val( mk%12 );
+    }
+
+
     function tambah(){
         istambah=true;
         let today = moment().format("Y-MM-DD"); 
@@ -488,36 +520,46 @@ active
             let newDate = moment(lastData['akhir']).add(1, 'days').format("Y-MM-DD"); 
             $form.find('[role=excluded]').attr('disabled',true)
             $('[name=id]').val('');
-            $('[name=utama]').val(lastData['utama_new']);
-            $('[name=pendformal]').val(lastData['pendformal_new']);
-            $('[name=diklat]').val(lastData['diklat_new']);
-            $('[name=sttpl]').val(lastData['sttpl_new']);
-            $('[name=yankes]').val(lastData['yankes_new']);
-            $('[name=profesi]').val(lastData['profesi_new']);
-            $('[name=pengmas]').val(lastData['pengmas_new']);
-            $('[name=penyankes]').val(lastData['penyankes_new']);
-            $('[name=awal]').val(newDate);
+            $('[name^=utama]').val(lastData['utama_new']);
+            $('[name^=pendformal]').val(lastData['pendformal_new']);
+            $('[name^=diklat]').val(lastData['diklat_new']);
+            $('[name^=sttpl]').val(lastData['sttpl_new']);
+            $('[name^=yankes]').val(lastData['yankes_new']);
+            $('[name^=profesi]').val(lastData['profesi_new']);
+            $('[name^=pengmas]').val(lastData['pengmas_new']);
+            $('[name^=penyankes]').val(lastData['penyankes_new']);
 
             let masakerja = lastData['masakerja'];
-            $('[name=masakerjatahun_old]').attr('readonly',true).val( Math.floor(masakerja/12) );
-            $('[name=masakerjabulan_old]').attr('readonly',true).val( masakerja%12 );
-            $('[name=masakerjatahun]').attr('readonly',false).val( Math.floor(masakerja/12) );
-            $('[name=masakerjabulan]').attr('readonly',false).val( masakerja%12 );
+            setMasaKerja(masakerja, masakerja, true, false);
+
+            showInfoLama(lastData);
 
             choicesList['idunitkerja'].setChoiceByValue(lastData['idunitkerja']);
             choicesList['idgolongan'].setChoiceByValue(lastData['idgolongan']);
             choicesList['idjabatan'].setChoiceByValue(lastData['idjabatan']);
             choicesList['idpendidikan'].setChoiceByValue(lastData['idpendidikan']);
-            $form.find('[name=awal]').attr('readonly',false);
+            $form.find('[name=awal]').attr('readonly',false).val(newDate);
+            $form.find('[name=akhir]').attr('readonly',false).val(newDate).change();
         }else{
             curData=null;
             $form.find('[role=excluded]').val('').attr('disabled',false)
             $form.find('[name=awal]').attr('readonly',false).val(today);
+            $form.find('[name=akhir]').attr('readonly',false).val(today).change();
+            
+            $('[name=utama]').val(0);
+            $('[name=pendformal]').val(0);
+            $('[name=diklat]').val(0);
+            $('[name=sttpl]').val(0);
+            $('[name=yankes]').val(0);
+            $('[name=profesi]').val(0);
+            $('[name=pengmas]').val(0);
+            $('[name=penyankes]').val(0);
 
-            $('[name=masakerjatahun_old]').attr('readonly',false).val(0);
-            $('[name=masakerjabulan_old]').attr('readonly',false).val(0);
-            $('[name=masakerjatahun]').attr('readonly',false).val(0);
-            $('[name=masakerjabulan]').attr('readonly',false).val(0);
+            $form.find('[role=new]').val(0);
+
+            setMasaKerja(0, 0, false, false);
+
+            $('#keterangan-uk').attr('hidden', true);
         }
 
         choicesList['idunitkerja'].enable();
@@ -525,11 +567,10 @@ active
         choicesList['idjabatan'].enable();
         choicesList['idpendidikan'].enable();
         
-        $form.find('[role=new]').attr('disabled',false).val('');
+        $form.find('[role=new]').attr('disabled',false);
        
         $form.find('[name=sejak]').val(newMonth).attr('disabled',false);
         $form.find('[name=hingga]').val(newMonth).attr('disabled',false);
-        $form.find('[name=akhir]').attr('readonly',false).val(today).change();
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=trigger-edit]').attr('hidden',true);
         $form.find('[role=trigger-batal]').attr('hidden',true);
@@ -546,6 +587,15 @@ active
         for(let key in data){
             if(key) $form.find('[name='+key+']').val(data[key]);
         }
+
+        if(curData['old']){
+            showInfoLama(curData['old']);
+            setMasaKerja(curData['old']['masakerja'], curData['masakerja'], true, true);
+        }else{
+            $('#keterangan-uk').attr('hidden', true);
+            setMasaKerja(0, curData['masakerja'], true, true);
+        }
+
         choicesList['idunitkerja'].setChoiceByValue(data['idunitkerja']).disable();
         choicesList['idgolongan'].setChoiceByValue(data['idgolongan']).disable();
         choicesList['idjabatan'].setChoiceByValue(data['idjabatan']).disable();
@@ -555,11 +605,10 @@ active
         $form.find('[role=new]').attr('disabled',true);
         $form.find('[name=awal]').attr('readonly',true);
         $form.find('[name=akhir]').attr('readonly',true).change();
-        $form.find('[name=masakerjatahun]').attr('readonly',true);
-        $form.find('[name=masakerjabulan]').attr('readonly',true);
         $form.find('[type=submit]').attr('hidden',true);
         $form.find('[role=trigger-edit]').attr('hidden',false);
         $form.find('[role=trigger-batal]').attr('hidden',true);
+
         $form.modal('show');
     }
 
@@ -569,7 +618,10 @@ active
         $form.find('[type=submit]').attr('hidden',false);
         $form.find('[role=new]').attr('disabled',false);
 
+        $form.find('[name=awal]').attr('readonly',false);
         $form.find('[name=akhir]').attr('readonly',false);
+        $('[name=masakerjatahun]').attr('readonly',false);
+        $('[name=masakerjabulan]').attr('readonly',false);
 
         choicesList['idunitkerja'].enable();
         choicesList['idgolongan'].enable();

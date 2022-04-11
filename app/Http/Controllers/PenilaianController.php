@@ -85,41 +85,43 @@ class PenilaianController extends Controller
                     ]);
                 }
 
+                $masakerja_new = $input['masakerjatahun']*12 + $input['masakerjabulan'];
+
                 //update masa pada penilaian yang mana tanggal pengisiannya di atas tanggal penilaian yg diedit
-                if($input['akhir'] AND $model->akhir->translatedFormat('Y-m-d') <> $input['akhir'] ){
-                    //cek apakah melebihi tanggal "akhir" dari model terikat
-                    if(isset($modelTerikat) AND Carbon::parse($input['akhir'])->gt($modelTerikat->akhir)){
-                        throw new \Exception("Melebihi tanggal akhir penilaian di atasnya");
-                    }else if(isset($modelTerikat)){
-                        $modelTerikat->awal = $input['akhir'];
-                    }
+                // if($input['akhir'] AND $model->akhir->translatedFormat('Y-m-d') <> $input['akhir'] ){
+                //     //cek apakah melebihi tanggal "akhir" dari model terikat
+                //     if(isset($modelTerikat) AND Carbon::parse($input['akhir'])->gt($modelTerikat->akhir)){
+                //         throw new \Exception("Melebihi tanggal akhir penilaian di atasnya");
+                //     }else if(isset($modelTerikat)){
+                //         $modelTerikat->awal = $input['akhir'];
+                //     }
 
-                    $masakerja_new = $input['masakerjatahun']*12 + $input['masakerjabulan'];
+                //     $masakerja_new = $input['masakerjatahun']*12 + $input['masakerjabulan'];
 
-                    // [KHUSUS KETIKA NGEDIT PENILAIAN PALING OLD]
-                    if( isset($model->old) == FALSE AND 
-                        ( $input['awal'] <> $model->awal->translatedFormat('Y-m-d') OR $masakerja_new <> $model->masakerja)){
-                        //loop ke penilaian terbaru baru untuk diapdet masa kerjanya
-                        $idexcept = [$model->id];
+                //     // [KHUSUS KETIKA NGEDIT PENILAIAN PALING OLD]
+                //     // if( isset($model->old) == FALSE AND 
+                //     //     ( $input['awal'] <> $model->awal->translatedFormat('Y-m-d') OR $masakerja_new <> $model->masakerja)){
+                //     //     //loop ke penilaian terbaru baru untuk diapdet masa kerjanya
+                //     //     $idexcept = [$model->id];
 
-                        $diffMonth = -1 * $model->awal->diffInMonths(Carbon::parse($input['awal']));
+                //     //     $diffMonth = -1 * $model->awal->diffInMonths(Carbon::parse($input['awal']));
 
-                        $diffMasakerja = $masakerja_new - $model->masakerja;
+                //     //     $diffMasakerja = $masakerja_new - $model->masakerja;
 
-                        dd($diffMonth);
+                //     //     dd($diffMonth);
 
-                        $selisih = $diffMasakerja + $diffMonth;
+                //     //     $selisih = $diffMasakerja + $diffMonth;
 
-                        if(isset($modelTerikat)){
-                            array_push($idexcept, $modelTerikat->id);
-                            $modelTerikat->masakerja = $modelTerikat->masakerja + $selisih;
-                        }
-                        Penilaian::where('idpegawai',$model->idpegawai)->whereNotIn('id',$idexcept)
-                            ->update(['masakerja'=> DB::raw('masakerja + '.$selisih)]);
-                    }
-                    
-                    $model->masakerja = $masakerja_new;
-                }
+                //     //     if(isset($modelTerikat)){
+                //     //         array_push($idexcept, $modelTerikat->id);
+                //     //         $modelTerikat->masakerja = $modelTerikat->masakerja + $selisih;
+                //     //     }
+                //     //     Penilaian::where('idpegawai',$model->idpegawai)->whereNotIn('id',$idexcept)
+                //     //         ->update(['masakerja'=> DB::raw('masakerja + '.$selisih)]);
+                //     // }
+                // }
+                
+                $model->masakerja = $masakerja_new;
                 $model->fill($input);
                 $model->fill([
                     "idm" => $user->id,
